@@ -12,10 +12,9 @@ Multi-class traffic sign classification with a focus on robustness to real-world
 
 | Member | Role | Phase(s) | Primary Responsibilities | Owned Components |
 | :--- | :--- | :---: | :--- | :--- |
-| **Raju** | Member | **Phase 1 & 2** | EDA, leakage-free splitting, scratch CNN design, training loop, hyperparameter tuning, clean evaluation & confusion matrix | `src/eda_and_split.py`, `src/models.py`, `src/train.py`, `src/dataset.py`, `notebooks/01_eda.ipynb`, `notebooks/02_baseline_cnn.ipynb` |
-| **Manoj** | Member | **Phase 3** | Robustness test bench implementation (5 corruptions × 3 severities), stress-test analysis | `src/corruptions.py`, `src/robustness_bench.py`, `results/figures/` |
-| **Sohail** | Member | **Phase 4** | Transfer learning (ResNet-18 / MobileNetV2), label-safe data augmentation, before/after comparison | `notebooks/03_transfer_learning.ipynb`, fine-tuning experiments |
-| **Everyone** | All | **Phase 5** | Grad-CAM explainability, evaluation & interpretation of all models | `src/gradcam.py`, `notebooks/04_evaluation_and_explainability.ipynb` |
+| **Raju** | Member | **Phase 1, 2 & 3** | EDA, leakage-free splitting, scratch CNN design, training loop, clean evaluation, robustness test bench (code & testing) | `src/eda_and_split.py`, `src/models.py`, `src/train.py`, `src/dataset.py`, `src/corruptions.py`, `src/robustness_bench.py`, `notebooks/01_eda.ipynb`, `notebooks/02_baseline_cnn.ipynb` |
+| **Manoj** | Member | **Phase 4** (code) | Transfer learning code (ResNet-18 / MobileNetV2), label-safe data augmentation implementation | `src/models.py` (transfer models), `notebooks/03_transfer_learning.ipynb` |
+| **Sohail** | Member | **Phase 4** (training & testing) + **Phase 5** | Phase 4 model training, evaluation & comparison; Grad-CAM explainability, interpretation of all models | `src/evaluate.py`, `src/gradcam.py`, `notebooks/04_evaluation_and_explainability.ipynb`, `results/figures/` |
 | **Aseem** | **Team Leader** | **Phase 6** | Documentation, project coordination, pipeline architecture, dataset acquisition, final report | `src/download_data.py`, `docs/`, `report/`, `README.md` |
 
 ---
