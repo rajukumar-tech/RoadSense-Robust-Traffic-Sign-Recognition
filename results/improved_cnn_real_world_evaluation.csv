@@ -1,0 +1,13 @@
+Sign_Description,Target_GTSRB_Class,Target_Name,Predicted_Class,Predicted_Name,Confidence_%,Match
+Indian Sign: Stop,14,Stop,9,No passing,2.47,False
+Indian Sign: No entry,17,No entry,9,No passing,2.47,False
+Indian Sign: Speed limit (50km/h),2,Speed limit (50km/h),9,No passing,2.47,False
+Indian Sign: Speed limit (80km/h),5,Speed limit (80km/h),9,No passing,2.47,False
+Indian Sign: Yield (Give Way),13,Yield,9,No passing,2.47,False
+Indian Sign: Pedestrians,27,Pedestrians,9,No passing,2.47,False
+Indian Sign: Turn right ahead,33,Turn right ahead,9,No passing,2.47,False
+Indian Sign: Ahead only,35,Ahead only,9,No passing,2.47,False
+Indian Sign: Roundabout mandatory,40,Roundabout mandatory,9,No passing,2.47,False
+Indian Sign: Road work,25,Road work,9,No passing,2.47,False
+Indian Sign: Slippery road,23,Slippery road,9,No passing,2.47,False
+Indian Sign: General caution,18,General caution,9,No passing,2.47,False
