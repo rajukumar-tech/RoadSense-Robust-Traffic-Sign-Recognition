@@ -10,21 +10,22 @@ Multi-class traffic sign classification with a focus on robustness to real-world
 
 ## Team Contributions
 
-| Member | Role | Primary Responsibilities | Owned Components |
-| :--- | :--- | :--- | :--- |
-| **Aseem** | **Team Leader** | Project coordination, pipeline architecture, dataset acquisition & leak-free splitting | `src/download_data.py`, `src/eda_and_split.py`, `data/` |
-| **Raju** | Member | Scratch CNN design, training loop, hyperparameter tuning, clean evaluation & confusion matrix | `src/models.py`, `src/train.py`, `notebooks/02_baseline_cnn.ipynb` |
-| **Sohail** | Member | Robustness test bench implementation (5 corruptions × 3 severities), stress-test analysis | `src/corruptions.py`, `src/evaluate.py`, `results/figures/` |
-| **Manoj** | Member | Label-safe data augmentation, transfer learning (ResNet-18 / MobileNetV2), before/after comparison | `notebooks/03_transfer_learning.ipynb`, fine-tuning experiments |
+| Member | Role | Phase(s) | Primary Responsibilities | Owned Components |
+| :--- | :--- | :---: | :--- | :--- |
+| **Raju** | Member | **Phase 1 & 2** | EDA, leakage-free splitting, scratch CNN design, training loop, hyperparameter tuning, clean evaluation & confusion matrix | `src/eda_and_split.py`, `src/models.py`, `src/train.py`, `src/dataset.py`, `notebooks/01_eda.ipynb`, `notebooks/02_baseline_cnn.ipynb` |
+| **Manoj** | Member | **Phase 3** | Robustness test bench implementation (5 corruptions × 3 severities), stress-test analysis | `src/corruptions.py`, `src/robustness_bench.py`, `results/figures/` |
+| **Sohail** | Member | **Phase 4** | Transfer learning (ResNet-18 / MobileNetV2), label-safe data augmentation, before/after comparison | `notebooks/03_transfer_learning.ipynb`, fine-tuning experiments |
+| **Everyone** | All | **Phase 5** | Grad-CAM explainability, evaluation & interpretation of all models | `src/gradcam.py`, `notebooks/04_evaluation_and_explainability.ipynb` |
+| **Aseem** | **Team Leader** | **Phase 6** | Documentation, project coordination, pipeline architecture, dataset acquisition, final report | `src/download_data.py`, `docs/`, `report/`, `README.md` |
 
 ---
 
 ## Step-by-Step Documentation
 
 Detailed step-by-step documentation is maintained for every phase of the project:
-1. [Step 1: Dataset Acquisition & Verification](docs/STEP1_DATASET_ACQUISITION.md) — GTSRB mirror download, extraction, and file verification.
-2. [Step 2: Phase 1 — EDA & Leakage-Free Validation Split](docs/STEP2_PHASE1_EDA_AND_SPLIT.md) — Class distribution, 43-class sample grid, size/brightness analysis, and disjoint track-based splitting.
-3. [Step 3: Phase 2 — Baseline CNN from Scratch](docs/STEP3_PHASE2_BASELINE_CNN.md) — Architecture design, training convergence, clean test evaluation, and confusion matrix error analysis.
+1. [Step 1: Dataset Acquisition & Verification](docs/STEP1_DATASET_ACQUISITION.md) — GTSRB mirror download, extraction, and file verification. *(Aseem)*
+2. [Step 2: Phase 1 — EDA & Leakage-Free Validation Split](docs/STEP2_PHASE1_EDA_AND_SPLIT.md) — Class distribution, 43-class sample grid, size/brightness analysis, and disjoint track-based splitting. *(Raju)*
+3. [Step 3: Phase 2 — Baseline CNN from Scratch](docs/STEP3_PHASE2_BASELINE_CNN.md) — Architecture design, training convergence, clean test evaluation, and confusion matrix error analysis. *(Raju)*
 
 ---
 
