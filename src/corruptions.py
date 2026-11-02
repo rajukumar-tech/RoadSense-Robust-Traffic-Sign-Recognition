@@ -64,11 +64,15 @@ def apply_brightness_contrast(image: Image.Image, severity: int = 1, seed: int =
 
 def apply_random_occlusion(image: Image.Image, severity: int = 1, seed: int = 42) -> Image.Image:
     """Overlays a solid gray/black occlusion patch to simulate branches, lampposts, or stickers."""
-    # Side length of square patch on 32x32 image
-    patch_size_map = {1: 6, 2: 10, 3: 14}
-    patch_size = patch_size_map.get(severity, 8)
+    # Patch sizes defined as fractions of image dimension (originally calibrated at 32x32)
+    # severity 1: ~19%, severity 2: ~31%, severity 3: ~44% of image width
+    patch_fraction_map = {1: 0.1875, 2: 0.3125, 3: 0.4375}
+    patch_fraction = patch_fraction_map.get(severity, 0.25)
 
     w, h = image.size
+    # Scale to actual image size so severity is consistent regardless of resolution
+    patch_size = max(4, int(min(w, h) * patch_fraction))
+
     img_arr = np.array(image).copy()
 
     # Deterministic placement based on seed

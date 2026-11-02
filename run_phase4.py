@@ -215,6 +215,8 @@ def generate_comparison_plots():
                 continue
             df_c = pd.read_csv(p)
             df_c = df_c[df_c["Corruption"] == corr].sort_values("Severity")
+            if df_c.empty:
+                continue
             ax_c.plot([1, 2, 3], df_c["Accuracy_%"].values,
                       marker="o", linestyle=ls, color=color, label=label, linewidth=2)
         ax_c.set_title(corr.replace("_", "\n").title(), fontsize=9)
