@@ -26,6 +26,7 @@ Detailed step-by-step documentation is maintained for every phase of the project
 2. [Step 2: Phase 1 — EDA & Leakage-Free Validation Split](docs/STEP2_PHASE1_EDA_AND_SPLIT.md) — Class distribution, 43-class sample grid, size/brightness analysis, and disjoint track-based splitting. *(Raju)*
 3. [Step 3: Phase 2 — Baseline CNN from Scratch](docs/STEP3_PHASE2_BASELINE_CNN.md) — Architecture design, training convergence, clean test evaluation, and confusion matrix error analysis. *(Raju)*
 4. [Step 4: Phase 4 — Robustness Improvement & Transfer Learning](docs/STEP4_PHASE4_TRANSFER_LEARNING.md) — Two-stage fine-tuning, label-safe augmentation, unified pipeline, four-way model comparison. *(Manoj)*
+5. [Step 5: Phase 5 — Explainability, Grad-CAM & Real-World Evaluation](docs/STEP5_PHASE5_EXPLAINABILITY.md) — Native Grad-CAM implementation, clean vs corrupted attention shift, dual-target error analysis, and Indian road sign evaluation. *(Sohail & Team)*
 
 ---
 
@@ -88,7 +89,11 @@ ROADSENSE/
 │   ├── train.py                                # Unified training pipeline (all 4 model types)
 │   ├── evaluate.py                             # Clean evaluation suite (auto-detects model type)
 │   ├── robustness_bench.py                     # 5×3 corruption robustness benchmark
-│   └── corruptions.py                          # 5 corruption types at 3 severity levels
+│   ├── corruptions.py                          # 5 corruption types at 3 severity levels
+│   └── explainability.py                       # Native Grad-CAM engine & real-world evaluation
+├── run_phase4.py                               # Phase 4 automated runner
+├── run_phase5.py                               # Phase 5 automated explainability runner
+├── run_all_phases.py                           # Master end-to-end runner (Phases 1-5)
 ├── results/
 │   ├── figures/                                # Saved high-res EDA and evaluation plots
 │   ├── confusion_matrices/                     # Generated confusion matrices
@@ -158,6 +163,16 @@ python src/train.py --model_type mobilenet_v2 --epochs 15 --use_aug --stage1_epo
 python src/evaluate.py --name mobilenet_v2
 python src/robustness_bench.py --name mobilenet_v2
 ```
+
+### Phase 5 — Explainability & Real-World Evaluation
+`ash
+# Run Grad-CAM on a specific model:
+python run_phase5.py --name baseline_cnn
+python run_phase5.py --name resnet18
+
+# Run full Phase 5 across all 4 architectures:
+python run_phase5.py --all_models
+`
 
 ### Notebooks
 Open the notebooks in Jupyter for interactive walkthroughs:
