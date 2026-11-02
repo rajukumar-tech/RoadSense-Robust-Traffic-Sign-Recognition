@@ -1,0 +1,2 @@
+Model,Clean_Accuracy_%,Macro_F1_%,Weighted_F1_%,Macro_Precision_%,Macro_Recall_%
+baseline_cnn,97.98,97.23,97.98,97.08,97.57

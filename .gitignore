@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Environments
+env/
+venv/
+.venv/
+
+# Large model weights & checkpoints (>100MB rejected by GitHub)
+*.pth
+*.pt
+*.h5
+*.keras
+*.onnx
+checkpoints/
+
+# Raw dataset files (ignored per project instructions)
+data/Train/
+data/Test/
+data/*.parquet
+data/*.zip
+data/GTSRB/
+data/raw/
+data/Final_Training/
+data/Final_Test/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
