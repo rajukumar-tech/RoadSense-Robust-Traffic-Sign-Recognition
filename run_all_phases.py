@@ -16,6 +16,7 @@ Trains ALL 4 models in sequence and generates all outputs:
   Step 10: Evaluate MobileNetV2
   Step 11: Robustness MobileNetV2 -> results/mobilenet_v2_robustness.csv
   Step 12: Generate comparison plots and model_comparison.csv
+  Step 13: Phase 5 Grad-CAM explainability and real-world evaluation
 
 Usage:
     python run_all_phases.py
@@ -326,6 +327,11 @@ def main():
 
     # ── Comparison plots ─────────────────────────────────────────
     generate_comparison_plots()
+
+    # ── Phase 5: Explainability & Grad-CAM ───────────────────────
+    from run_phase5 import run_phase5
+    section('Phase 5: Explainability, Grad-CAM & Real-World Evaluation')
+    run_phase5(run_all=True)
 
     elapsed = (time.time() - t_start) / 60
     section(f"ALL PHASES COMPLETE — Total time: {elapsed:.1f} minutes")
