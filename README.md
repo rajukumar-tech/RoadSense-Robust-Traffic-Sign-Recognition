@@ -13,7 +13,7 @@ Multi-class traffic sign classification with a focus on robustness to real-world
 | Member | Role | Phase(s) | Primary Responsibilities | Owned Components |
 | :--- | :--- | :---: | :--- | :--- |
 | **Raju** | Member | **Phase 1, 2 & 3** | EDA, leakage-free splitting, scratch CNN design, training loop, clean evaluation, robustness test bench (code & testing) | `src/eda_and_split.py`, `src/models.py`, `src/train.py`, `src/dataset.py`, `src/corruptions.py`, `src/robustness_bench.py`, `notebooks/01_eda.ipynb`, `notebooks/02_baseline_cnn.ipynb` |
-| **Manoj** | Member | **Phase 4** (code) | Transfer learning code (ResNet-18 / MobileNetV2), label-safe data augmentation implementation | `src/models.py` (transfer models), `notebooks/03_transfer_learning.ipynb` |
+| **Manoj** | Member | **Phase 4** (code) | Designed and implemented the full Phase 4 codebase: `TransferModel` class (ResNet-18 & MobileNetV2) with two-stage fine-tuning strategy; rewrote unified training pipeline (`src/train.py`) supporting all 4 model types with differential LRs, class-weighted loss & label-safe augmentation; extended `src/evaluate.py` with checkpoint-aware auto model detection; extended `src/robustness_bench.py` for all model types; built end-to-end pipeline runners (`run_phase4.py`, `run_all_phases.py`); authored Phase 4 interactive notebook and Colab GPU training notebook | `src/models.py` (TransferModel + BaselineCNN extensions), `src/train.py` (full rewrite), `src/evaluate.py` (extended), `src/robustness_bench.py` (extended), `notebooks/03_transfer_learning.ipynb`, `RoadSense_Colab_Training.ipynb`, `run_phase4.py`, `run_all_phases.py`, `docs/STEP4_PHASE4_TRANSFER_LEARNING.md` |
 | **Sohail** | Member | **Phase 4** (training & testing) + **Phase 5** | Phase 4 model training, evaluation & comparison; Grad-CAM explainability, interpretation of all models | `src/evaluate.py`, `src/gradcam.py`, `notebooks/04_evaluation_and_explainability.ipynb`, `results/figures/` |
 | **Aseem** | **Team Leader** | **Phase 6** | Documentation, project coordination, pipeline architecture, dataset acquisition, final report | `src/download_data.py`, `docs/`, `report/`, `README.md` |
 
@@ -25,7 +25,7 @@ Detailed step-by-step documentation is maintained for every phase of the project
 1. [Step 1: Dataset Acquisition & Verification](docs/STEP1_DATASET_ACQUISITION.md) — GTSRB mirror download, extraction, and file verification. *(Aseem)*
 2. [Step 2: Phase 1 — EDA & Leakage-Free Validation Split](docs/STEP2_PHASE1_EDA_AND_SPLIT.md) — Class distribution, 43-class sample grid, size/brightness analysis, and disjoint track-based splitting. *(Raju)*
 3. [Step 3: Phase 2 — Baseline CNN from Scratch](docs/STEP3_PHASE2_BASELINE_CNN.md) — Architecture design, training convergence, clean test evaluation, and confusion matrix error analysis. *(Raju)*
-4. [Step 4: Phase 4 — Robustness Improvement & Transfer Learning](docs/STEP4_PHASE4_TRANSFER_LEARNING.md)
+4. [Step 4: Phase 4 — Robustness Improvement & Transfer Learning](docs/STEP4_PHASE4_TRANSFER_LEARNING.md) — Two-stage fine-tuning, label-safe augmentation, unified pipeline, four-way model comparison. *(Manoj)*
 
 ---
 
