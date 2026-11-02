@@ -66,7 +66,7 @@ class CorruptedTestDataset(Dataset):
 
 def _build_model_from_checkpoint(ckpt_path: Path, device: torch.device):
     """Load the correct model class based on 'model_type' stored in the checkpoint."""
-    checkpoint = torch.load(ckpt_path, map_location=device)
+    checkpoint = torch.load(ckpt_path, map_location=device, weights_only=False)
     model_type = checkpoint.get("model_type", "baseline_cnn")
 
     if model_type in TRANSFER_ARCHS:
@@ -128,7 +128,8 @@ def run_robustness_benchmark(
     img_size = IMG_SIZE_MAP.get(model_type, 32)
     print(f"Loaded: {ckpt_path}  (type={model_type}, img={img_size}x{img_size})")
 
-    eval_transform = get_transforms(img_size=img_size, is_training=False, use_augmentation=False)
+    eval_transform = get_transforms(img_size=img_size, is_training=False, use_augmentation=False,
+                                     use_imagenet_norm=(model_type in TRANSFER_ARCHS))
 
     # 1. Clean Baseline Accuracy
     from src.dataset import GTSRBDataset

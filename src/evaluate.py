@@ -43,7 +43,7 @@ IMG_SIZE_MAP = {
 
 def _build_model_from_checkpoint(ckpt_path: Path, device: torch.device):
     """Load the correct model class based on the 'model_type' key in the checkpoint."""
-    checkpoint = torch.load(ckpt_path, map_location=device)
+    checkpoint = torch.load(ckpt_path, map_location=device, weights_only=False)
     model_type = checkpoint.get("model_type", "baseline_cnn")
 
     if model_type in TRANSFER_ARCHS:
@@ -161,8 +161,11 @@ def evaluate(model_name: str = "baseline_cnn", checkpoint_file: str = None):
     img_size = IMG_SIZE_MAP.get(model_type, 32)
     print(f"Loaded checkpoint: {ckpt_path}  (type={model_type}, epoch={epoch}, img={img_size}x{img_size})")
 
-    # Data
-    _, _, test_loader = get_data_loaders(batch_size=64, img_size=img_size, use_augmentation=False)
+    is_transfer = model_type in TRANSFER_ARCHS
+    _, _, test_loader = get_data_loaders(
+        batch_size=64, img_size=img_size, use_augmentation=False,
+        use_imagenet_norm=is_transfer,
+    )
 
     # Inference
     y_pred, y_true, y_prob = evaluate_model(model, test_loader, device)
