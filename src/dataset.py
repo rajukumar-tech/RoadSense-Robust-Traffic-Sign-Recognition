@@ -5,7 +5,7 @@ and label-safe data augmentations.
 """
 
 from pathlib import Path
-from typing import Optional, Callable
+from typing import Optional, Callable, Union
 import pandas as pd
 from PIL import Image
 import torch
@@ -14,20 +14,26 @@ import torchvision.transforms as T
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
-# Standard ImageNet / GTSRB normalization statistics
+# GTSRB-specific normalization statistics (for scratch CNNs)
 NORM_MEAN = [0.3403, 0.3121, 0.3214]  # Measured GTSRB channel means
 NORM_STD = [0.2724, 0.2608, 0.2669]   # Measured GTSRB channel stds
+
+# ImageNet normalization statistics (for pretrained transfer models)
+IMAGENET_MEAN = [0.485, 0.456, 0.406]
+IMAGENET_STD = [0.229, 0.224, 0.225]
 
 
 def get_transforms(
     img_size: int = 32,
     is_training: bool = False,
     use_augmentation: bool = False,
+    use_imagenet_norm: bool = False,
 ) -> T.Compose:
     """
     Returns torchvision transforms for GTSRB images.
     If use_augmentation is True, applies strictly label-safe transformations
     (small rotation, brightness/contrast jitter, slight affine translation).
+    If use_imagenet_norm is True, uses ImageNet mean/std (for pretrained transfer models).
     """
     transforms_list = [
         T.Resize((img_size, img_size)),
@@ -43,9 +49,13 @@ def get_transforms(
             T.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
         ])
 
+    # Use ImageNet stats for pretrained backbones, GTSRB stats for scratch CNNs
+    mean = IMAGENET_MEAN if use_imagenet_norm else NORM_MEAN
+    std = IMAGENET_STD if use_imagenet_norm else NORM_STD
+
     transforms_list.extend([
         T.ToTensor(),
-        T.Normalize(mean=NORM_MEAN, std=NORM_STD),
+        T.Normalize(mean=mean, std=std),
     ])
 
     return T.Compose(transforms_list)
@@ -59,8 +69,8 @@ class GTSRBDataset(Dataset):
 
     def __init__(
         self,
-        csv_file: Path or str,
-        data_root: Optional[Path or str] = None,
+        csv_file: Union[Path, str],
+        data_root: Optional[Union[Path, str]] = None,
         transform: Optional[Callable] = None,
     ):
         self.data_root = Path(data_root) if data_root else DATA_DIR
@@ -90,9 +100,11 @@ def get_data_loaders(
     img_size: int = 32,
     use_augmentation: bool = False,
     num_workers: int = 0,
+    use_imagenet_norm: bool = False,
 ):
     """
     Helper to construct PyTorch DataLoaders for train, val, and test splits.
+    Set use_imagenet_norm=True for pretrained transfer models.
     """
     train_csv = DATA_DIR / "train_split.csv"
     val_csv = DATA_DIR / "val_split.csv"
@@ -102,8 +114,14 @@ def get_data_loaders(
         if not p.exists():
             raise FileNotFoundError(f"Missing required CSV: {p}. Run src/eda_and_split.py first.")
 
-    train_transform = get_transforms(img_size=img_size, is_training=True, use_augmentation=use_augmentation)
-    eval_transform = get_transforms(img_size=img_size, is_training=False, use_augmentation=False)
+    train_transform = get_transforms(
+        img_size=img_size, is_training=True,
+        use_augmentation=use_augmentation, use_imagenet_norm=use_imagenet_norm,
+    )
+    eval_transform = get_transforms(
+        img_size=img_size, is_training=False,
+        use_augmentation=False, use_imagenet_norm=use_imagenet_norm,
+    )
 
     train_dataset = GTSRBDataset(csv_file=train_csv, transform=train_transform)
     val_dataset = GTSRBDataset(csv_file=val_csv, transform=eval_transform)

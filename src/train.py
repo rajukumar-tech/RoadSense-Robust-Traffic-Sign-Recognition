@@ -229,11 +229,12 @@ def train(
     CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
     FIG_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Data
+    # Data — use ImageNet normalization for pretrained transfer models
     train_loader, val_loader, _ = get_data_loaders(
         batch_size=batch_size,
         img_size=img_size,
         use_augmentation=use_augmentation,
+        use_imagenet_norm=is_transfer,
     )
 
     # Model
