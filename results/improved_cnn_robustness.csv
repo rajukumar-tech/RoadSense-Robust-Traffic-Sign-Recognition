@@ -1,0 +1,16 @@
+Model,Corruption,Severity,Accuracy_%,Accuracy_Drop_%
+improved_cnn,gaussian_noise,1,93.33,5.38
+improved_cnn,gaussian_noise,2,79.9,18.8
+improved_cnn,gaussian_noise,3,64.32,34.39
+improved_cnn,motion_blur,1,97.2,1.5
+improved_cnn,motion_blur,2,83.64,15.06
+improved_cnn,motion_blur,3,52.8,45.9
+improved_cnn,brightness_contrast,1,98.52,0.18
+improved_cnn,brightness_contrast,2,96.56,2.14
+improved_cnn,brightness_contrast,3,80.6,18.1
+improved_cnn,random_occlusion,1,94.86,3.84
+improved_cnn,random_occlusion,2,84.81,13.89
+improved_cnn,random_occlusion,3,63.24,35.46
+improved_cnn,jpeg_compression,1,95.19,3.52
+improved_cnn,jpeg_compression,2,89.64,9.07
+improved_cnn,jpeg_compression,3,72.07,26.63

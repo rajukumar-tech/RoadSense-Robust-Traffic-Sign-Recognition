@@ -133,7 +133,7 @@ def generate_comparison_plots():
 
     df_compare = pd.DataFrame(rows)
     df_compare.drop(columns=["model_id"]).to_csv(RESULTS_DIR / "model_comparison.csv", index=False)
-    print(f"Saved comparison table → results/model_comparison.csv")
+    print(f"Saved comparison table -> results/model_comparison.csv")
     print(df_compare.drop(columns=["model_id"]).to_string(index=False))
 
     # ── Plot 1: Grouped bar — Clean Acc vs mCA ──
@@ -166,7 +166,7 @@ def generate_comparison_plots():
     plt.tight_layout()
     plt.savefig(FIG_DIR / "four_way_model_comparison.png", dpi=300)
     plt.close()
-    print(f"Saved → results/figures/four_way_model_comparison.png")
+    print(f"Saved -> results/figures/four_way_model_comparison.png")
 
     # ── Plot 2: Phase 4A before/after augmentation ──
     b_path = RESULTS_DIR / "baseline_cnn_robustness.csv"
@@ -196,7 +196,7 @@ def generate_comparison_plots():
         plt.tight_layout()
         plt.savefig(FIG_DIR / "phase4a_augmentation_comparison.png", dpi=300)
         plt.close()
-        print(f"Saved → results/figures/phase4a_augmentation_comparison.png")
+        print(f"Saved -> results/figures/phase4a_augmentation_comparison.png")
 
     # ── Plot 3: Robustness overlay per corruption ──
     model_styles = [
@@ -229,7 +229,7 @@ def generate_comparison_plots():
     plt.tight_layout()
     plt.savefig(FIG_DIR / "all_models_robustness_overlay.png", dpi=300, bbox_inches="tight")
     plt.close()
-    print(f"Saved → results/figures/all_models_robustness_overlay.png")
+    print(f"Saved -> results/figures/all_models_robustness_overlay.png")
 
     # ── Plot 4: Learning curves overlay ──
     model_hist = [
@@ -259,7 +259,7 @@ def generate_comparison_plots():
     plt.tight_layout()
     plt.savefig(FIG_DIR / "phase4_learning_curves_comparison.png", dpi=300)
     plt.close()
-    print(f"Saved → results/figures/phase4_learning_curves_comparison.png")
+    print(f"Saved -> results/figures/phase4_learning_curves_comparison.png")
 
 
 # ──────────────────────────────────────────────────

@@ -1,0 +1,16 @@
+Model,Corruption,Severity,Accuracy_%,Accuracy_Drop_%
+mobilenet_v2,gaussian_noise,1,68.8,24.74
+mobilenet_v2,gaussian_noise,2,42.07,51.46
+mobilenet_v2,gaussian_noise,3,24.16,69.38
+mobilenet_v2,motion_blur,1,89.29,4.25
+mobilenet_v2,motion_blur,2,66.12,27.42
+mobilenet_v2,motion_blur,3,37.07,56.47
+mobilenet_v2,brightness_contrast,1,93.07,0.47
+mobilenet_v2,brightness_contrast,2,85.55,7.99
+mobilenet_v2,brightness_contrast,3,61.62,31.92
+mobilenet_v2,random_occlusion,1,88.29,5.25
+mobilenet_v2,random_occlusion,2,76.18,17.36
+mobilenet_v2,random_occlusion,3,52.12,41.42
+mobilenet_v2,jpeg_compression,1,83.32,10.22
+mobilenet_v2,jpeg_compression,2,73.17,20.36
+mobilenet_v2,jpeg_compression,3,51.81,41.73

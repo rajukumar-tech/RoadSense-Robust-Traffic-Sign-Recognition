@@ -1,2 +1,5 @@
 Model,Clean_Accuracy_%,Macro_F1_%,Weighted_F1_%,Macro_Precision_%,Macro_Recall_%
 baseline_cnn,97.98,97.23,97.98,97.08,97.57
+improved_cnn,98.7,97.98,98.69,97.86,98.18
+resnet18,96.27,94.7,96.25,94.78,95.12
+mobilenet_v2,93.54,92.29,93.56,93.05,92.45

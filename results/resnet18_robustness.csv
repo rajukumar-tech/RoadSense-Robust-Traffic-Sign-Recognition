@@ -1,0 +1,16 @@
+Model,Corruption,Severity,Accuracy_%,Accuracy_Drop_%
+resnet18,gaussian_noise,1,82.91,13.37
+resnet18,gaussian_noise,2,59.09,37.18
+resnet18,gaussian_noise,3,39.75,56.52
+resnet18,motion_blur,1,92.0,4.28
+resnet18,motion_blur,2,69.16,27.11
+resnet18,motion_blur,3,41.03,55.24
+resnet18,brightness_contrast,1,95.63,0.64
+resnet18,brightness_contrast,2,91.39,4.89
+resnet18,brightness_contrast,3,71.49,24.78
+resnet18,random_occlusion,1,90.78,5.49
+resnet18,random_occlusion,2,79.22,17.05
+resnet18,random_occlusion,3,57.18,39.09
+resnet18,jpeg_compression,1,91.14,5.13
+resnet18,jpeg_compression,2,83.97,12.3
+resnet18,jpeg_compression,3,62.5,33.77
