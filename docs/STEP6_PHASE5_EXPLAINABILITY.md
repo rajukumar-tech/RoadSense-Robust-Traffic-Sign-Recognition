@@ -1,4 +1,4 @@
-# Step 5: Phase 5 — Explainability, Grad-CAM & Real-World Evaluation
+# Step 6: Phase 5 – Explainability, Grad-CAM & Real-World Evaluation
 
 **Project:** RoadSense: Robust Traffic Sign Recognition  
 **Group:** Group 4 | Atria University  

@@ -1,9 +1,9 @@
 Model,Parameters,Clean_Acc,Macro_F1,mCA
 "Baseline CNN
-(scratch, no aug)",823K,97.98,97.23,81.46
+(scratch, no aug)","823,307",97.98,97.23,81.46
 "Improved CNN
-(scratch + aug)",823K,98.7,97.98,83.11
+(scratch + aug)","823,307",98.7,97.98,83.11
 "ResNet-18
-(fine-tuned)",11.7M,96.27,94.7,73.82
+(fine-tuned)","11,319,147",96.27,94.7,73.82
 "MobileNetV2
-(fine-tuned)",3.4M,93.54,92.29,66.18
+(fine-tuned)","2,563,115",93.54,92.29,66.18

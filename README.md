@@ -13,7 +13,7 @@ Multi-class traffic sign classification with a focus on robustness to real-world
 | Member | Role | Phase(s) | Primary Responsibilities | Owned Components |
 | :--- | :--- | :---: | :--- | :--- |
 | **Raju** | Member | **Phase 1, 2 & 3** | EDA, leakage-free splitting, scratch CNN design, training loop, clean evaluation, robustness test bench (code & testing) | `src/eda_and_split.py`, `src/models.py`, `src/train.py`, `src/dataset.py`, `src/corruptions.py`, `src/robustness_bench.py`, `notebooks/01_eda.ipynb`, `notebooks/02_baseline_cnn.ipynb` |
-| **Manoj** | Member | **Phase 4** (code) | Designed and implemented the full Phase 4 codebase: `TransferModel` class (ResNet-18 & MobileNetV2) with two-stage fine-tuning strategy; rewrote unified training pipeline (`src/train.py`) supporting all 4 model types with differential LRs, class-weighted loss & label-safe augmentation; extended `src/evaluate.py` with checkpoint-aware auto model detection; extended `src/robustness_bench.py` for all model types; built end-to-end pipeline runners (`run_phase4.py`, `run_all_phases.py`); authored Phase 4 interactive notebook and Colab GPU training notebook | `src/models.py` (TransferModel + BaselineCNN extensions), `src/train.py` (full rewrite), `src/evaluate.py` (extended), `src/robustness_bench.py` (extended), `notebooks/03_transfer_learning.ipynb`, `RoadSense_Colab_Training.ipynb`, `run_phase4.py`, `run_all_phases.py`, `docs/STEP4_PHASE4_TRANSFER_LEARNING.md` |
+| **Manoj** | Member | **Phase 4** (code) | Designed and implemented the full Phase 4 codebase: `TransferModel` class (ResNet-18 & MobileNetV2) with two-stage fine-tuning strategy; rewrote unified training pipeline (`src/train.py`) supporting all 4 model types with differential LRs, class-weighted loss & label-safe augmentation; extended `src/evaluate.py` with checkpoint-aware auto model detection; extended `src/robustness_bench.py` for all model types; built end-to-end pipeline runners (`run_phase4.py`, `run_all_phases.py`); authored Phase 4 interactive notebook and Colab GPU training notebook | `src/models.py` (TransferModel + BaselineCNN extensions), `src/train.py` (full rewrite), `src/evaluate.py` (extended), `src/robustness_bench.py` (extended), `notebooks/03_transfer_learning.ipynb`, `RoadSense_Colab_Training.ipynb`, `run_phase4.py`, `run_all_phases.py`, `docs/STEP5_PHASE4_TRANSFER_LEARNING.md` |
 | **Sohail** | Member | **Phase 4** (training & testing) + **Phase 5** | Phase 4 model training, evaluation & comparison; Grad-CAM explainability, interpretation of all models | `src/evaluate.py`, `src/gradcam.py`, `notebooks/04_evaluation_and_explainability.ipynb`, `results/figures/` |
 | **Aseem** | **Team Leader** | **Phase 6** | Documentation, project coordination, pipeline architecture, dataset acquisition, final report | `src/download_data.py`, `docs/`, `report/`, `README.md` |
 
@@ -25,8 +25,9 @@ Detailed step-by-step documentation is maintained for every phase of the project
 1. [Step 1: Dataset Acquisition & Verification](docs/STEP1_DATASET_ACQUISITION.md) — GTSRB mirror download, extraction, and file verification. *(Aseem)*
 2. [Step 2: Phase 1 — EDA & Leakage-Free Validation Split](docs/STEP2_PHASE1_EDA_AND_SPLIT.md) — Class distribution, 43-class sample grid, size/brightness analysis, and disjoint track-based splitting. *(Raju)*
 3. [Step 3: Phase 2 — Baseline CNN from Scratch](docs/STEP3_PHASE2_BASELINE_CNN.md) — Architecture design, training convergence, clean test evaluation, and confusion matrix error analysis. *(Raju)*
-4. [Step 4: Phase 4 — Robustness Improvement & Transfer Learning](docs/STEP4_PHASE4_TRANSFER_LEARNING.md) — Two-stage fine-tuning, label-safe augmentation, unified pipeline, four-way model comparison. *(Manoj)*
-5. [Step 5: Phase 5 — Explainability, Grad-CAM & Real-World Evaluation](docs/STEP5_PHASE5_EXPLAINABILITY.md) — Native Grad-CAM implementation, clean vs corrupted attention shift, dual-target error analysis, and Indian road sign evaluation. *(Sohail & Team)*
+4. [Step 4: Phase 3 – Robustness Benchmark](docs/STEP4_PHASE3_ROBUSTNESS_BENCH.md) – 15 corruption conditions (5 corruptions × 3 severities), mCA metric, all 4 models. *(Raju)*
+5. [Step 5: Phase 4 — Robustness Improvement & Transfer Learning](docs/STEP5_PHASE4_TRANSFER_LEARNING.md) — Two-stage fine-tuning, label-safe augmentation, unified pipeline, four-way model comparison. *(Manoj)*
+6. [Step 6: Phase 5 — Explainability, Grad-CAM & Real-World Evaluation](docs/STEP6_PHASE5_EXPLAINABILITY.md) — Native Grad-CAM implementation, clean vs corrupted attention shift, dual-target error analysis, and Indian road sign evaluation. *(Sohail & Team)*
 
 ---
 
@@ -74,7 +75,9 @@ ROADSENSE/
 │   ├── STEP1_DATASET_ACQUISITION.md
 │   ├── STEP2_PHASE1_EDA_AND_SPLIT.md
 │   ├── STEP3_PHASE2_BASELINE_CNN.md
-│   └── STEP4_PHASE4_TRANSFER_LEARNING.md
+│   ├── STEP4_PHASE3_ROBUSTNESS_BENCH.md
+│   ├── STEP5_PHASE4_TRANSFER_LEARNING.md
+│   └── STEP6_PHASE5_EXPLAINABILITY.md
 ├── notebooks/
 │   ├── 01_eda.ipynb                            # Phase 1: Interactive EDA & Split
 │   ├── 02_baseline_cnn.ipynb                   # Phase 2: Scratch CNN design & training
@@ -93,6 +96,7 @@ ROADSENSE/
 │   └── explainability.py                       # Native Grad-CAM engine & real-world evaluation
 ├── run_phase4.py                               # Phase 4 automated runner
 ├── run_phase5.py                               # Phase 5 automated explainability runner
+├── run_fast.py                                 # CPU-optimised fast runner (sampled robustness)
 ├── run_all_phases.py                           # Master end-to-end runner (Phases 1-5)
 ├── results/
 │   ├── figures/                                # Saved high-res EDA and evaluation plots
@@ -108,8 +112,8 @@ ROADSENSE/
 
 ### 1. Clone the repository
 ```bash
-git clone <repo-url>
-cd ROADSENSE
+git clone https://github.com/rajukumar-tech/RoadSense-Robust-Traffic-Sign-Recognition
+cd RoadSense-Robust-Traffic-Sign-Recognition
 ```
 
 ### 2. Install dependencies
@@ -126,6 +130,17 @@ This downloads GTSRB from Kaggle/official mirror into `data/Train/` and `data/Te
 ---
 
 ## Running the Full Pipeline
+
+### Fast Unified Runner — CPU-Optimised (~1.2 h)
+Trains all four models, runs sampled robustness benchmarks, and generates comparison plots in a single command. Applies 21 CPU optimisations (`torch.compile`, BF16 autocast, RAM-cached dataset, `channels_last` layout, OneCycleLR, AdamW foreach, KMP thread pinning, and `transforms.v2` uint8 pipeline):
+```bash
+python run_fast.py
+```
+> **Note on Robustness Benchmark Sampling:** `run_fast.py` evaluates robustness on a statistically representative sample of $N = 2,500$ test images (~20% subset, margin of error ±1.96% at 95% confidence by CLT) for rapid iteration on CPU. Full benchmark results reported in the Experimental Results table evaluate all **12,630 test images** via `src/robustness_bench.py`.
+
+---
+
+### Step-by-Step Phase Execution
 
 ### Phase 1 — EDA & Leak-Free Split
 ```bash
@@ -193,10 +208,10 @@ Custom 6-layer CNN designed from scratch for 32×32 GTSRB images.
 ImageNet-pretrained ResNet-18 with custom GTSRB head. Input: 48×48.
 - Backbone: 8 residual blocks (frozen Stage 1, fine-tuned Stage 2)
 - New head: Dropout → Linear(512→256) → BN → ReLU → Dropout → Linear(256→43)
-- **~11.7M total parameters**
+- **11,319,147 total parameters**
 
 ### TransferModel — MobileNetV2 (Phase 4B)
 ImageNet-pretrained MobileNetV2 with custom GTSRB head. Input: 48×48.
 - Backbone: Inverted residual blocks with depthwise separable convolutions
 - New head: Dropout → Linear(1280→256) → BN → ReLU → Dropout → Linear(256→43)
-- **~3.4M total parameters**
+- **2,563,115 total parameters**

@@ -309,18 +309,12 @@ def load_model_for_explainability(
         print(f"Loaded checkpoint for {model_name} (type={model_type}, img={img_size}x{img_size})")
         return model, model_type, img_size, True
     else:
-        # Fallback to model factory
-        model_type = model_name
-        img_size = IMG_SIZE_MAP.get(model_type, 32)
-        if model_type in TRANSFER_ARCHS:
-            from src.models import get_transfer_model
-            model = get_transfer_model(model_type, num_classes=43, freeze_backbone=False)
-        else:
-            model = BaselineCNN(num_classes=43)
-        model.to(device)
-        model.eval()
-        print(f"[NOTE] Checkpoint {ckpt_path.name} not found. Running in demonstration mode.")
-        return model, model_type, img_size, False
+        raise FileNotFoundError(
+            f"Checkpoint not found: {ckpt_path}\n"
+            f"Train the model first:\n"
+            f"  python src/train.py --model_type {model_name} --name {model_name}\n"
+            f"Grad-CAM on an untrained model produces meaningless heatmaps."
+        )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
