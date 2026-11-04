@@ -13,8 +13,8 @@ Multi-class traffic sign classification with a focus on robustness to real-world
 | Member | Role | Phase(s) | Primary Responsibilities | Owned Components |
 | :--- | :--- | :---: | :--- | :--- |
 | **Raju** | Member | **Phase 1, 2 & 3** | EDA, leakage-free splitting, scratch CNN design, training loop, clean evaluation, robustness test bench (code & testing) | `src/eda_and_split.py`, `src/models.py`, `src/train.py`, `src/dataset.py`, `src/corruptions.py`, `src/robustness_bench.py`, `notebooks/01_eda.ipynb`, `notebooks/02_baseline_cnn.ipynb` |
-| **Manoj** | Member | **Phase 4** (code) | Designed and implemented the full Phase 4 codebase: `TransferModel` class (ResNet-18 & MobileNetV2) with two-stage fine-tuning strategy; rewrote unified training pipeline (`src/train.py`) supporting all 4 model types with differential LRs, class-weighted loss & label-safe augmentation; extended `src/evaluate.py` with checkpoint-aware auto model detection; extended `src/robustness_bench.py` for all model types; built end-to-end pipeline runners (`run_phase4.py`, `run_all_phases.py`); authored Phase 4 interactive notebook and Colab GPU training notebook | `src/models.py` (TransferModel + BaselineCNN extensions), `src/train.py` (full rewrite), `src/evaluate.py` (extended), `src/robustness_bench.py` (extended), `notebooks/03_transfer_learning.ipynb`, `RoadSense_Colab_Training.ipynb`, `run_phase4.py`, `run_all_phases.py`, `docs/STEP4_PHASE4_TRANSFER_LEARNING.md` |
-| **Sohail** | Member | **Phase 4** (training & testing) + **Phase 5** | Phase 4 model training, evaluation & comparison; Grad-CAM explainability, interpretation of all models | `src/evaluate.py`, `src/gradcam.py`, `notebooks/04_evaluation_and_explainability.ipynb`, `results/figures/` |
+| **Manoj** | Member | **Phase 4** (code) | Designed and implemented the full Phase 4 codebase: `TransferModel` class (ResNet-18 & MobileNetV2) with two-stage fine-tuning; rewrote unified training pipeline (`src/train.py`) supporting all 4 model types with differential LRs, class-weighted loss & label-safe augmentation; extended `src/evaluate.py` with checkpoint-aware auto model detection; extended `src/robustness_bench.py` for all model types; built end-to-end pipeline runners (`run_phase4.py`, `run_all_phases.py`); authored Phase 4 interactive notebook and Colab GPU training notebook; built `run_fast.py` — CPU-optimised unified runner with 21 optimisations (torch.compile, BF16 autocast, RAM cache, channels_last, OneCycleLR, AdamW foreach, KMP thread pinning, transforms.v2 uint8 pipeline) cutting training time from ~5–6 h to ~1.2 h on CPU; extended `notebooks/04_evaluation_and_explainability.ipynb` with adversarial robustness analysis (FGSM, Goodfellow et al. 2014) and Bayesian uncertainty estimation (MC Dropout, Gal & Ghahramani 2016) | `src/models.py` (TransferModel + BaselineCNN extensions), `src/train.py` (full rewrite), `src/evaluate.py` (extended), `src/robustness_bench.py` (extended), `run_fast.py`, `notebooks/03_transfer_learning.ipynb`, `notebooks/04_evaluation_and_explainability.ipynb` (sections 8–10), `RoadSense_Colab_Training.ipynb`, `run_phase4.py`, `run_all_phases.py`, `docs/STEP4_PHASE4_TRANSFER_LEARNING.md` |
+| **Sohail** | Member | **Phase 4** (training & testing) + **Phase 5** | Phase 4 model training, evaluation & comparison; Grad-CAM explainability, interpretation of all models | `src/evaluate.py`, `src/gradcam.py`, `notebooks/04_evaluation_and_explainability.ipynb` (sections 1–7), `results/figures/` |
 | **Aseem** | **Team Leader** | **Phase 6** | Documentation, project coordination, pipeline architecture, dataset acquisition, final report | `src/download_data.py`, `docs/`, `report/`, `README.md` |
 
 ---
@@ -37,20 +37,20 @@ Detailed step-by-step documentation is maintained for every phase of the project
 | Model Architecture | Owned By | Parameters | Clean Accuracy | Macro-F1 | Weighted-F1 | Checkpoint |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Baseline CNN (Scratch)** | Raju | 823,307 | **97.98%** | **97.23%** | **97.98%** | `checkpoints/best_baseline_cnn.pth` |
-| **Improved CNN (+augmentation)** | Manoj | 823,307 | *run Phase 4A* | *run Phase 4A* | *run Phase 4A* | `checkpoints/best_improved_cnn.pth` |
-| **ResNet-18 (fine-tuned)** | Manoj | 11,181,595 | *run Phase 4B* | *run Phase 4B* | *run Phase 4B* | `checkpoints/best_resnet18.pth` |
-| **MobileNetV2 (fine-tuned)** | Manoj | 3,412,267 | *run Phase 4B* | *run Phase 4B* | *run Phase 4B* | `checkpoints/best_mobilenet_v2.pth` |
+| **Improved CNN (+augmentation)** | Manoj | 823,307 | **98.70%** | **97.98%** | **98.69%** | `checkpoints/best_improved_cnn.pth` |
+| **ResNet-18 (fine-tuned)** | Manoj | 11,181,595 | **96.27%** | **94.70%** | **96.25%** | `checkpoints/best_resnet18.pth` |
+| **MobileNetV2 (fine-tuned)** | Manoj | 3,412,267 | **93.54%** | **92.29%** | **93.56%** | `checkpoints/best_mobilenet_v2.pth` |
 
 ### Robustness Benchmark (5 Corruptions × 3 Severities = 15 Conditions)
 
 | Model | Clean Acc | Mean Corruption Acc (mCA) | Robustness Gap |
 | :--- | :---: | :---: | :---: |
-| Baseline CNN | 97.98% | *run Phase 3* | *-* |
-| Improved CNN (+aug) | *run* | *run* | *-* |
-| ResNet-18 | *run* | *run* | *-* |
-| MobileNetV2 | *run* | *run* | *-* |
+| Baseline CNN | 97.98% | 81.46% | -16.52 pp |
+| Improved CNN (+aug) | 98.70% | 83.11% | -15.59 pp |
+| ResNet-18 | 96.27% | 73.82% | -22.45 pp |
+| MobileNetV2 | 93.54% | 66.18% | -27.36 pp |
 
-> Full comparison table saved to `results/model_comparison.csv` after running Phase 4.
+> Full comparison table: `results/model_comparison.csv` · Per-model metrics: `results/metrics.csv`
 
 ---
 
@@ -61,6 +61,10 @@ ROADSENSE/
 ├── README.md                                   # Project overview, team table, results
 ├── requirements.txt                            # Python dependencies
 ├── .gitignore                                  # Excludes raw images, checkpoints, large weights
+├── run_fast.py                                 # CPU-optimised unified runner (21 optimisations, ~1.2 h on CPU)
+├── run_phase4.py                               # Phase 4 automated runner
+├── run_phase5.py                               # Phase 5 automated explainability runner
+├── run_all_phases.py                           # Master end-to-end runner (Phases 1–5)
 ├── data/
 │   ├── README.md                               # Dataset source and download notes
 │   ├── Train.csv                               # Full 39,209 training metadata records
@@ -74,12 +78,13 @@ ROADSENSE/
 │   ├── STEP1_DATASET_ACQUISITION.md
 │   ├── STEP2_PHASE1_EDA_AND_SPLIT.md
 │   ├── STEP3_PHASE2_BASELINE_CNN.md
-│   └── STEP4_PHASE4_TRANSFER_LEARNING.md
+│   ├── STEP4_PHASE4_TRANSFER_LEARNING.md
+│   └── STEP5_PHASE5_EXPLAINABILITY.md
 ├── notebooks/
 │   ├── 01_eda.ipynb                            # Phase 1: Interactive EDA & Split
 │   ├── 02_baseline_cnn.ipynb                   # Phase 2: Scratch CNN design & training
 │   ├── 03_transfer_learning.ipynb              # Phase 4: Augmentation & transfer learning
-│   └── 04_evaluation_and_explainability.ipynb  # Phase 3 & 5: Robustness bench & Grad-CAM
+│   └── 04_evaluation_and_explainability.ipynb  # Phase 3, 5 & safety: Robustness bench, Grad-CAM, FGSM, MC Dropout
 ├── src/
 │   ├── utils.py                                # Class names (43), categories, seed fixing
 │   ├── download_data.py                        # Dataset downloader & verification
@@ -90,15 +95,13 @@ ROADSENSE/
 │   ├── evaluate.py                             # Clean evaluation suite (auto-detects model type)
 │   ├── robustness_bench.py                     # 5×3 corruption robustness benchmark
 │   ├── corruptions.py                          # 5 corruption types at 3 severity levels
-│   └── explainability.py                       # Native Grad-CAM engine & real-world evaluation
-├── run_phase4.py                               # Phase 4 automated runner
-├── run_phase5.py                               # Phase 5 automated explainability runner
-├── run_all_phases.py                           # Master end-to-end runner (Phases 1-5)
+│   ├── gradcam.py                              # Native Grad-CAM engine
+│   └── explainability.py                       # Grad-CAM visualisation & real-world evaluation
 ├── results/
 │   ├── figures/                                # Saved high-res EDA and evaluation plots
 │   ├── confusion_matrices/                     # Generated confusion matrices
 │   ├── metrics.csv                             # Clean test set metrics (all models)
-│   └── model_comparison.csv                    # Four-way model comparison (generated in Phase 4)
+│   └── model_comparison.csv                    # Four-way model comparison with robustness
 └── report/                                     # Final technical project report (PDF)
 ```
 
@@ -126,6 +129,12 @@ This downloads GTSRB from Kaggle/official mirror into `data/Train/` and `data/Te
 ---
 
 ## Running the Full Pipeline
+
+### Fast Unified Runner — CPU Optimised (~1.2 h)
+Trains all four models, runs robustness benchmarks, and generates comparison plots in a single command. Applies 21 CPU optimisations: `torch.compile`, BF16 autocast, RAM-cached dataset, `channels_last` memory layout, OneCycleLR, AdamW foreach mode, KMP thread pinning, and `transforms.v2` uint8 pipeline.
+```bash
+python run_fast.py
+```
 
 ### Phase 1 — EDA & Leak-Free Split
 ```bash
@@ -165,19 +174,19 @@ python src/robustness_bench.py --name mobilenet_v2
 ```
 
 ### Phase 5 — Explainability & Real-World Evaluation
-`ash
+```bash
 # Run Grad-CAM on a specific model:
 python run_phase5.py --name baseline_cnn
 python run_phase5.py --name resnet18
 
 # Run full Phase 5 across all 4 architectures:
 python run_phase5.py --all_models
-`
+```
 
 ### Notebooks
 Open the notebooks in Jupyter for interactive walkthroughs:
 - `notebooks/03_transfer_learning.ipynb` — Phase 4: full augmentation + transfer learning comparison
-- `notebooks/04_evaluation_and_explainability.ipynb` — Phase 5: Grad-CAM explainability
+- `notebooks/04_evaluation_and_explainability.ipynb` — Phase 3 & 5 + safety analysis: robustness bench, Grad-CAM, adversarial robustness (FGSM), Bayesian uncertainty estimation (MC Dropout)
 
 ---
 
@@ -200,3 +209,28 @@ ImageNet-pretrained MobileNetV2 with custom GTSRB head. Input: 48×48.
 - Backbone: Inverted residual blocks with depthwise separable convolutions
 - New head: Dropout → Linear(1280→256) → BN → ReLU → Dropout → Linear(256→43)
 - **~3.4M total parameters**
+
+---
+
+## Safety Analysis (Notebook 04 — Sections 8–10)
+
+Two additional safety analyses were added to `notebooks/04_evaluation_and_explainability.ipynb` to evaluate model behaviour under adversarial and uncertain conditions.
+
+### Adversarial Robustness — FGSM (Section 8)
+Fast Gradient Sign Method (Goodfellow et al., 2014) generates imperceptible input perturbations using the model's own gradients. We evaluate accuracy degradation across epsilon values ε ∈ {0.0, 0.01, 0.02, 0.05, 0.1} and visualise clean vs adversarial sign pairs. Demonstrates why confidence alone is insufficient for safety-critical deployment.
+
+### Bayesian Uncertainty — MC Dropout (Section 9)
+Monte Carlo Dropout (Gal & Ghahramani, 2016) approximates Bayesian inference by running 50 stochastic forward passes with dropout active at inference time. Predictive entropy is used as the uncertainty measure. On clean signs, uncertainty is near zero; on corrupted signs, entropy spikes — the model reliably flags inputs it cannot confidently classify.
+
+### Safety Summary (Section 10)
+A consolidated table linking corruption robustness, adversarial vulnerability, and uncertainty behaviour across all model variants, providing a holistic view of deployment readiness.
+
+---
+
+## References
+
+- Goodfellow, I. J., Shlens, J., & Szegedy, C. (2014). *Explaining and Harnessing Adversarial Examples.* arXiv:1412.6572
+- Gal, Y., & Ghahramani, Z. (2016). *Dropout as a Bayesian Approximation.* ICML 2016.
+- He, K., Zhang, X., Ren, S., & Sun, J. (2016). *Deep Residual Learning for Image Recognition.* CVPR 2016.
+- Howard, A. G., et al. (2017). *MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications.* arXiv:1704.04861
+- Stallkamp, J., et al. (2012). *Man vs. Computer: Benchmarking Machine Learning Algorithms for Traffic Sign Recognition.* Neural Networks, 32, 323–332.
