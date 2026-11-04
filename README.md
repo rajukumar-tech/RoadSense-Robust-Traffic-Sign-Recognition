@@ -38,8 +38,8 @@ Detailed step-by-step documentation is maintained for every phase of the project
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Baseline CNN (Scratch)** | Raju | 823,307 | **97.98%** | **97.23%** | **97.98%** | `checkpoints/best_baseline_cnn.pth` |
 | **Improved CNN (+augmentation)** | Raju | 823,307 | **98.70%** | **97.98%** | **98.69%** | `checkpoints/best_improved_cnn.pth` |
-| **ResNet-18 (fine-tuned)** | Manoj/Sohail | 11,181,595 | **96.27%** | **94.70%** | **96.25%** | `checkpoints/best_resnet18.pth` |
-| **MobileNetV2 (fine-tuned)** | Manoj/Sohail | 3,412,267 | **93.54%** | **92.29%** | **93.56%** | `checkpoints/best_mobilenet_v2.pth` |
+| **ResNet-18 (fine-tuned)** | Manoj/Sohail | 11,319,147 | **96.27%** | **94.70%** | **96.25%** | `checkpoints/best_resnet18.pth` |
+| **MobileNetV2 (fine-tuned)** | Manoj/Sohail | 2,563,115 | **93.54%** | **92.29%** | **93.56%** | `checkpoints/best_mobilenet_v2.pth` |
 
 ### Robustness Benchmark (5 Corruptions × 3 Severities = 15 Conditions)
 

@@ -22,6 +22,10 @@ In autonomous driving systems, a high test accuracy is insufficient on its own. 
 4. **Dual-Target Error Diagnostics:** Explain misclassifications by generating side-by-side heatmaps for the predicted class vs the ground truth class.
 5. **Real-World Cross-Jurisdiction Check:** Evaluate signs matching Indian Road Congress (IRC) standards to assess transferability outside the German GTSRB domain.
 
+> **Note on Synthetic Sign Images:** Grad-CAM visualisations use programmatically generated canonical sign images (create_synthetic_sign_sample()) rather than raw GTSRB photos. This is intentional -- synthetic images isolate attention to pure sign geometry without confounders (noise, lighting, background). All figures in 
+esults/figures/*_gradcam_*.png were generated using **trained checkpoints** (checkpoints/best_*.pth). The loader raises FileNotFoundError if a checkpoint is absent -- no silent fallback to random weights exists.
+
+
 ---
 
 ## 2. Mathematical Formulation of Grad-CAM
