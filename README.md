@@ -37,18 +37,18 @@ Detailed step-by-step documentation is maintained for every phase of the project
 | Model Architecture | Owned By | Parameters | Clean Accuracy | Macro-F1 | Weighted-F1 | Checkpoint |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Baseline CNN (Scratch)** | Raju | 823,307 | **97.98%** | **97.23%** | **97.98%** | `checkpoints/best_baseline_cnn.pth` |
-| **Improved CNN (+augmentation)** | Manoj | 823,307 | *run Phase 4A* | *run Phase 4A* | *run Phase 4A* | `checkpoints/best_improved_cnn.pth` |
-| **ResNet-18 (fine-tuned)** | Manoj | 11,181,595 | *run Phase 4B* | *run Phase 4B* | *run Phase 4B* | `checkpoints/best_resnet18.pth` |
-| **MobileNetV2 (fine-tuned)** | Manoj | 3,412,267 | *run Phase 4B* | *run Phase 4B* | *run Phase 4B* | `checkpoints/best_mobilenet_v2.pth` |
+| **Improved CNN (+augmentation)** | Raju | 823,307 | **98.70%** | **97.98%** | **98.69%** | `checkpoints/best_improved_cnn.pth` |
+| **ResNet-18 (fine-tuned)** | Manoj/Sohail | 11,181,595 | **96.27%** | **94.70%** | **96.25%** | `checkpoints/best_resnet18.pth` |
+| **MobileNetV2 (fine-tuned)** | Manoj/Sohail | 3,412,267 | **93.54%** | **92.29%** | **93.56%** | `checkpoints/best_mobilenet_v2.pth` |
 
 ### Robustness Benchmark (5 Corruptions × 3 Severities = 15 Conditions)
 
 | Model | Clean Acc | Mean Corruption Acc (mCA) | Robustness Gap |
 | :--- | :---: | :---: | :---: |
-| Baseline CNN | 97.98% | *run Phase 3* | *-* |
-| Improved CNN (+aug) | *run* | *run* | *-* |
-| ResNet-18 | *run* | *run* | *-* |
-| MobileNetV2 | *run* | *run* | *-* |
+| **Baseline CNN** | 97.98% | 81.46% | -16.52% |
+| **Improved CNN (+aug)** | **98.70%** | **83.11%** | **-15.59%** |
+| **ResNet-18** | 96.27% | 73.82% | -22.45% |
+| **MobileNetV2** | 93.54% | 66.18% | -27.36% |
 
 > Full comparison table saved to `results/model_comparison.csv` after running Phase 4.
 
