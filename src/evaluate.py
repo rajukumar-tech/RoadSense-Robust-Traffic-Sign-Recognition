@@ -80,7 +80,7 @@ def evaluate_model(model, test_loader, device):
 
 
 def plot_and_save_confusion_matrix(y_true, y_pred, model_name: str, out_path: Path):
-    """Generate high-resolution 43x43 confusion matrix heatmap."""
+    """Generate high-resolution 43x43 confusion matrix heatmap and top-confused classes submatrix."""
     cm = confusion_matrix(y_true, y_pred)
     cm_norm = cm.astype("float") / cm.sum(axis=1)[:, np.newaxis]
 
@@ -100,6 +100,38 @@ def plot_and_save_confusion_matrix(y_true, y_pred, model_name: str, out_path: Pa
     plt.savefig(out_path, dpi=300)
     plt.close()
     print(f"Saved confusion matrix to {out_path}")
+
+    # Top 7 Most Confused Classes Sub-Matrix with explicit numbers
+    off_diag = cm.copy()
+    np.fill_diagonal(off_diag, 0)
+    error_sum = off_diag.sum(axis=1) + off_diag.sum(axis=0)
+    top_indices = np.argsort(error_sum)[::-1][:7]
+    sub_cm = cm[np.ix_(top_indices, top_indices)]
+    class_labels = [CLASS_NAMES.get(i, f"Class {i}") for i in top_indices]
+    display_labels = [lbl if len(lbl) <= 24 else lbl[:22] + ".." for lbl in class_labels]
+
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(
+        sub_cm,
+        annot=True,
+        fmt="d",
+        cmap="Blues",
+        xticklabels=display_labels,
+        yticklabels=display_labels,
+        annot_kws={"size": 11, "weight": "bold"},
+        cbar_kws={"label": "Sample Count"},
+    )
+    plt.title(f"Confusion Matrix: Top 7 Confused Sign Classes ({model_name})", fontsize=13, pad=12, fontweight="bold")
+    plt.xlabel("Predicted Label", fontsize=11, fontweight="bold")
+    plt.ylabel("True Label", fontsize=11, fontweight="bold")
+    plt.xticks(rotation=30, ha="right", fontsize=9)
+    plt.yticks(rotation=0, fontsize=9)
+    plt.tight_layout()
+    top_out = out_path.parent / f"{model_name}_cm_top_confused.png"
+    plt.savefig(top_out, dpi=300)
+    plt.close()
+    print(f"Saved top-confused confusion matrix to {top_out}")
+
     return cm
 
 

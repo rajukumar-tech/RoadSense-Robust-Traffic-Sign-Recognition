@@ -106,10 +106,10 @@ def generate_comparison_plots():
         "mobilenet_v2":  "MobileNetV2\n(fine-tuned)",
     }
     params_map = {
-        "baseline_cnn": "823K",
-        "improved_cnn": "823K",
-        "resnet18":     "11.7M",
-        "mobilenet_v2": "3.4M",
+        "baseline_cnn": "823,307",
+        "improved_cnn": "823,307",
+        "resnet18":     "11,319,147",
+        "mobilenet_v2": "2,563,115",
     }
 
     rows = []
