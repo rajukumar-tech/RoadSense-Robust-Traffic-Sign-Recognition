@@ -9,7 +9,6 @@
 - **Date:** November 2026
 - **Public GitHub Repository:** [https://github.com/rajukumar-tech/RoadSense-Robust-Traffic-Sign-Recognition](https://github.com/rajukumar-tech/RoadSense-Robust-Traffic-Sign-Recognition)
 - **Official Submission PDF:** [`report/RoadSense_Group4_Final_Report.pdf`](RoadSense_Group4_Final_Report.pdf)
-- **Interactive Gradio Perception App:** [`app.py`](../app.py)
 
 ---
 
@@ -17,7 +16,7 @@
 
 | Member | GitHub Username | Role | Primary Responsibilities & Deliverables | Components Owned | Key Viva / Review Focus |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| **Aseem (Team Leader)** | `mohammedasim-ee` | Leader, Phase 6 | Dataset acquisition (`src/download_data.py`), project coordination, pipeline architecture, documentation, final technical report, interactive Gradio app (`app.py`) | `src/download_data.py`, `docs/`, `report/`, `README.md`, `app.py` | End-to-end pipeline, dataset verification, report synthesis |
+| **Aseem (Team Leader)** | `mohammedasim-ee` | Leader, Phase 6 | Dataset acquisition (`src/download_data.py`), project coordination, pipeline architecture, documentation, final technical report | `src/download_data.py`, `docs/`, `report/`, `README.md` | End-to-end pipeline, dataset verification, report synthesis |
 | **Raju** | `rajukumar-tech` | Phases 1–3 | EDA & leakage-free track splitting (`src/eda_and_split.py`), scratch BaselineCNN architecture design, training loops, clean evaluation, corruption test bench (`src/corruptions.py`, `src/robustness_bench.py`) | `src/eda_and_split.py`, `src/models.py`, `src/train.py`, `src/dataset.py`, `src/corruptions.py`, `src/robustness_bench.py`, `notebooks/01_eda.ipynb`, `notebooks/02_baseline_cnn.ipynb`, `notebooks/03_robustness.ipynb` | Disjoint track split, baseline scratch CNN, 15-condition corruption bench |
 | **Manoj** | `MAN_OF_HATERS` | Phase 4 (code) | TransferModel class (ResNet-18 & MobileNetV2) with two-stage fine-tuning strategy, unified training pipeline rewrite (`src/train.py`), label-safe augmentation suite, CPU fast runner (`run_fast.py`) | `src/models.py` (TransferModel), `src/train.py` (full rewrite), `src/evaluate.py`, `run_phase4.py`, `run_fast.py`, `run_all_phases.py`, `notebooks/03_transfer_learning.ipynb`, `docs/STEP5_PHASE4_TRANSFER_LEARNING.md` | Transfer learning dynamics, two-stage fine-tuning, label-safe augmentations |
 | **Sohail** | `Sohail-WD` | Phases 4 & 5 | Model training execution, performance benchmarking, PyTorch native Grad-CAM engine (`src/explainability.py`), cross-model attention comparisons, real-world Indian sign transferability check | `src/evaluate.py`, `src/gradcam.py`, `src/explainability.py`, `notebooks/04_evaluation_and_explainability.ipynb`, `results/figures/`, `docs/STEP6_PHASE5_EXPLAINABILITY.md` | Grad-CAM hooks, attention collapse under blur/noise, Indian sign testing |
@@ -182,7 +181,7 @@ The RoadSense project demonstrates that **clean benchmark accuracy is a misleadi
 
 ## 10. Declaration of Assistive Tool & AI Usage
 
-In compliance with Atria University academic sprint guidelines, the authors declare that an AI assistant (Claude, Anthropic) was utilized as an assistive programming and typesetting tool. Specifically, the assistant was employed for code refactoring suggestions, LaTeX/PDF stylesheet formatting, and assisting in the generation of the interactive Gradio demo interface (`app.py`). All core research hypotheses, network architecture designs, experimental benchmarking pipelines, metric verifications, error diagnoses, and technical analyses were independently conducted, interpreted, and verified by the student authors.
+In compliance with Atria University academic sprint guidelines, the authors declare that an AI assistant (Claude, Anthropic) was utilized as an assistive programming and typesetting tool. Specifically, the assistant was employed for code refactoring suggestions and PDF stylesheet formatting. All core research hypotheses, network architecture designs, experimental benchmarking pipelines, metric verifications, error diagnoses, and technical analyses were independently conducted, interpreted, and verified by the student authors.
 
 ---
 
