@@ -185,13 +185,22 @@ The RoadSense project demonstrates that **clean benchmark accuracy is a misleadi
 
 ---
 
-## 10. Declaration of Assistive Tool & AI Usage
+## 10. Team Contribution, AI Declaration & References
+
+### Team Contribution Matrix
+
+| Member | Role | Phase | Primary Ownership & Deliverables | Key Viva Focus |
+|---|---|---|---|---|
+| **Aseem** (Team Leader) | Leader | Phase 6 | Dataset acquisition (`src/download_data.py`), project architecture, documentation, final technical report, repository README | End-to-end pipeline, dataset hygiene, report |
+| **Raju** | Member | Phases 1–3 | EDA & leakage-free track split (`src/eda_and_split.py`), scratch BaselineCNN, training loop, corruption test bench (`src/corruptions.py`, `src/robustness_bench.py`) | Track-based split, baseline design, 15-condition bench |
+| **Manoj** | Member | Phase 4 | TransferModel class (ResNet-18, MobileNetV2), two-stage fine-tuning, unified training pipeline (`src/train.py` rewrite), label-safe augmentation, CPU fast runner (`run_fast.py`) | Two-stage fine-tuning, label-safe augmentations |
+| **Sohail** | Member | Phases 4 & 5 | Model training execution, performance benchmarking, PyTorch native Grad-CAM engine (`src/explainability.py`), cross-model attention comparisons, Indian sign transfer check | Grad-CAM mechanics, attention shift, Indian signs |
+
+### Declaration of Assistive Tool & AI Usage
 
 In compliance with Atria University academic sprint guidelines, the authors declare that an AI assistant (Claude, Anthropic) was utilized as an assistive programming and typesetting tool. Specifically, the assistant was employed for code refactoring suggestions and PDF stylesheet formatting. All core research hypotheses, network architecture designs, experimental benchmarking pipelines, metric verifications, error diagnoses, and technical analyses were independently conducted, interpreted, and verified by the student authors.
 
----
-
-## 11. References
+### References
 
 1. J. Stallkamp, M. Schlipsing, J. Salmen, and C. Igel, "Man vs. computer: Benchmarking machine learning algorithms for traffic sign recognition," *Neural Networks*, vol. 32, pp. 323–332, 2012.
 2. P. Sermanet and Y. LeCun, "Traffic sign recognition with multi-scale convolutional networks," in *Proc. Int. Joint Conf. Neural Networks (IJCNN)*, 2011, pp. 2809–2815.
@@ -201,13 +210,3 @@ In compliance with Atria University academic sprint guidelines, the authors decl
 6. R. R. Selvaraju, M. Cogswell, A. Das, R. Vedantam, D. Parikh, and D. Batra, "Grad-CAM: Visual explanations from deep networks via gradient-based localization," in *Proc. IEEE Int. Conf. Comput. Vis. (ICCV)*, 2017, pp. 618–626.
 7. D. P. Kingma and J. Ba, "Adam: A method for stochastic optimization," in *Proc. Int. Conf. Learn. Representations (ICLR)*, 2015.
 8. RoadSense Public Open-Source Repository: [https://github.com/rajukumar-tech/RoadSense-Robust-Traffic-Sign-Recognition](https://github.com/rajukumar-tech/RoadSense-Robust-Traffic-Sign-Recognition)
-
----
-
-## Appendix A: Supporting Exploratory Figures
-
-![Sample Grid 43 Classes](../results/figures/sample_grid_43_classes.png)
-*Figure A1. Representative sample grid displaying all 43 canonical traffic sign categories in GTSRB.*
-
-![Brightness Distribution](../results/figures/brightness_distribution.png)
-*Figure A2. Luminance and contrast distribution across GTSRB training images motivating the brightness/contrast corruption benchmark.*

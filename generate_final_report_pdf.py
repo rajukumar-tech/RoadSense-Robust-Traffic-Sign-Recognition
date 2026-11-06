@@ -199,25 +199,8 @@ def build_pdf():
     story.append(Paragraph("<b>Group 4</b> | Atria University | Neural Networks & CNN Sprint | Instructor: <b>Aishwarya Mishra</b> | November 2026", meta_style))
     story.append(Paragraph("<b>Public GitHub Repository:</b> <font color='#2b6cb0'><u>https://github.com/rajukumar-tech/RoadSense-Robust-Traffic-Sign-Recognition</u></font>", meta_style))
 
-    # Team Contribution Table on First Page
-    team_data = [
-        [Paragraph("Member", table_cell_header), Paragraph("Role", table_cell_header), Paragraph("Phase", table_cell_header), Paragraph("Primary Ownership & Deliverables", table_cell_header), Paragraph("Key Viva Focus", table_cell_header)],
-        [Paragraph("<b>Aseem</b><br/>(Team Leader)", table_cell_bold), Paragraph("Leader", table_cell), Paragraph("Phase 6", table_cell), Paragraph("Dataset acquisition (<code>src/download_data.py</code>), project architecture, documentation, final technical report, repository README", table_cell), Paragraph("End-to-end pipeline, dataset hygiene, report", table_cell)],
-        [Paragraph("<b>Raju</b>", table_cell_bold), Paragraph("Member", table_cell), Paragraph("Phases 1–3", table_cell), Paragraph("EDA & leakage-free track split (<code>src/eda_and_split.py</code>), scratch BaselineCNN, training loop, corruption test bench (<code>src/corruptions.py</code>, <code>src/robustness_bench.py</code>)", table_cell), Paragraph("Track-based split, baseline design, 15-condition bench", table_cell)],
-        [Paragraph("<b>Manoj</b>", table_cell_bold), Paragraph("Member", table_cell), Paragraph("Phase 4", table_cell), Paragraph("TransferModel class (ResNet-18, MobileNetV2), two-stage fine-tuning, unified training pipeline (<code>src/train.py</code> rewrite), label-safe augmentation, CPU fast runner (<code>run_fast.py</code>)", table_cell), Paragraph("Two-stage fine-tuning, label-safe augmentations", table_cell)],
-        [Paragraph("<b>Sohail</b>", table_cell_bold), Paragraph("Member", table_cell), Paragraph("Phases 4 & 5", table_cell), Paragraph("Model training execution, performance benchmarking, PyTorch native Grad-CAM engine (<code>src/explainability.py</code>), cross-model attention comparisons, Indian sign transfer check", table_cell), Paragraph("Grad-CAM mechanics, attention shift, Indian signs", table_cell)],
-    ]
-    t_team = Table(team_data, colWidths=[1.1*inch, 0.7*inch, 0.75*inch, 2.7*inch, 1.75*inch])
-    t_team.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#2b6cb0")),
-        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e0")),
-        ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f7fafc")]),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-    ]))
-    story.append(t_team)
-    story.append(Spacer(1, 8))
+    story.append(Paragraph("<b>Student Authors:</b> Aseem (Team Lead), Raju Kumar, Manoj, Sohail", meta_style))
+    story.append(Spacer(1, 6))
 
     # =========================================================================
     # SECTION 2: ABSTRACT (150-200 Words)
@@ -544,10 +527,32 @@ def build_pdf():
     story.append(Spacer(1, 6))
 
     # =========================================================================
-    # SECTION 11: CONTRIBUTION TABLE, AI DECLARATION & REFERENCES
+    # SECTION 10: CONTRIBUTION TABLE, AI DECLARATION & REFERENCES
     # =========================================================================
     story.append(Paragraph("10. Team Contribution, AI Declaration & References", h1_style))
-    
+    story.append(Paragraph("<b>Team Contribution Matrix:</b>", body_style))
+    story.append(Spacer(1, 4))
+
+    # Team Contribution Table placed in Section 10
+    team_data = [
+        [Paragraph("Member", table_cell_header), Paragraph("Role", table_cell_header), Paragraph("Phase", table_cell_header), Paragraph("Primary Ownership & Deliverables", table_cell_header), Paragraph("Key Viva Focus", table_cell_header)],
+        [Paragraph("<b>Aseem</b><br/>(Team Leader)", table_cell_bold), Paragraph("Leader", table_cell), Paragraph("Phase 6", table_cell), Paragraph("Dataset acquisition (<code>src/download_data.py</code>), project architecture, documentation, final technical report, repository README", table_cell), Paragraph("End-to-end pipeline, dataset hygiene, report", table_cell)],
+        [Paragraph("<b>Raju</b>", table_cell_bold), Paragraph("Member", table_cell), Paragraph("Phases 1–3", table_cell), Paragraph("EDA & leakage-free track split (<code>src/eda_and_split.py</code>), scratch BaselineCNN, training loop, corruption test bench (<code>src/corruptions.py</code>, <code>src/robustness_bench.py</code>)", table_cell), Paragraph("Track-based split, baseline design, 15-condition bench", table_cell)],
+        [Paragraph("<b>Manoj</b>", table_cell_bold), Paragraph("Member", table_cell), Paragraph("Phase 4", table_cell), Paragraph("TransferModel class (ResNet-18, MobileNetV2), two-stage fine-tuning, unified training pipeline (<code>src/train.py</code> rewrite), label-safe augmentation, CPU fast runner (<code>run_fast.py</code>)", table_cell), Paragraph("Two-stage fine-tuning, label-safe augmentations", table_cell)],
+        [Paragraph("<b>Sohail</b>", table_cell_bold), Paragraph("Member", table_cell), Paragraph("Phases 4 & 5", table_cell), Paragraph("Model training execution, performance benchmarking, PyTorch native Grad-CAM engine (<code>src/explainability.py</code>), cross-model attention comparisons, Indian sign transfer check", table_cell), Paragraph("Grad-CAM mechanics, attention shift, Indian signs", table_cell)],
+    ]
+    t_team = Table(team_data, colWidths=[1.1*inch, 0.7*inch, 0.75*inch, 2.7*inch, 1.75*inch])
+    t_team.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#2b6cb0")),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e0")),
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor("#f7fafc")]),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+    ]))
+    story.append(t_team)
+    story.append(Spacer(1, 6))
+
     # AI Declaration (Professional, ethical phrasing)
     ai_text = (
         "<b>Declaration of Assistive Tool & AI Usage:</b> In compliance with Atria University academic sprint guidelines, the authors declare that "
@@ -571,27 +576,6 @@ def build_pdf():
         "[8] RoadSense Public Open-Source Repository: <u>https://github.com/rajukumar-tech/RoadSense-Robust-Traffic-Sign-Recognition</u>"
     )
     story.append(Paragraph(ref_text, body_style))
-    story.append(Spacer(1, 8))
-
-    # =========================================================================
-    # APPENDIX: SUPPORTING EDA FIGURES
-    # =========================================================================
-    story.append(PageBreak())
-    story.append(Paragraph("Appendix A: Supporting Exploratory Figures", h1_style))
-    story.append(Paragraph("Comprehensive exploratory data analysis visualizations supporting GTSRB dataset acquisition and preprocessing choices.", body_style))
-    story.append(Spacer(1, 6))
-
-    img_grid = ROOT_DIR / "results" / "figures" / "sample_grid_43_classes.png"
-    img_bright = ROOT_DIR / "results" / "figures" / "brightness_distribution.png"
-    
-    if img_grid.exists():
-        story.append(RLImage(str(img_grid), width=5.5*inch, height=5.5*inch))
-        story.append(Paragraph("Figure A1. Representative sample grid displaying all 43 canonical traffic sign categories in GTSRB.", caption_style))
-    story.append(Spacer(1, 6))
-
-    if img_bright.exists():
-        story.append(RLImage(str(img_bright), width=6.8*inch, height=2.2*inch))
-        story.append(Paragraph("Figure A2. Luminance and contrast distribution across GTSRB training images motivating the brightness/contrast corruption benchmark.", caption_style))
 
     # Build the document
     doc.build(story, canvasmaker=NumberedCanvas)
