@@ -337,7 +337,7 @@ def build_pdf():
         "totaling <b>823,307 trainable parameters</b>.<br/>"
         "<b>Improved CNN:</b> Exactly identical architecture to BaselineCNN, but trained with our specialized <i>label-safe augmentation pipeline</i>.<br/>"
         "<b>Transfer Models (ResNet-18 & MobileNetV2):</b> ImageNet-pretrained backbones adapted for 48×48 input resolution. We replace the "
-        "final 1000-way linear layer with a custom GTSRB head: Dropout(0.4) → Linear(D → 256) → BN → ReLU → Dropout(0.4) → Linear(256 → 43), "
+        "final 1000-way linear layer with a custom GTSRB head: Dropout(0.4) → Linear(D → 256) → BN → ReLU → Dropout(0.2) → Linear(256 → 43), "
         "where D=512 for ResNet-18 (11,319,147 parameters) and D=1280 for MobileNetV2 (2,563,115 parameters)."
     )
     story.append(Paragraph(meth_text, body_style))
@@ -346,7 +346,7 @@ def build_pdf():
     arch_data = [
         [Paragraph("Model Architecture", table_cell_header), Paragraph("Input Size", table_cell_header), Paragraph("Total Parameters", table_cell_header), Paragraph("Initialization", table_cell_header), Paragraph("Augmentation", table_cell_header), Paragraph("Training Protocol", table_cell_header)],
         [Paragraph("<b>Baseline CNN</b>", table_cell_bold), Paragraph("32×32", table_cell), Paragraph("823,307", table_cell), Paragraph("Random (Kaiming)", table_cell), Paragraph("None (Raw)", table_cell), Paragraph("8 Epochs, Adam (1e-3)", table_cell)],
-        [Paragraph("<b>Improved CNN</b>", table_cell_bold), Paragraph("32×32", table_cell), Paragraph("823,307", table_cell), Paragraph("Random (Kaiming)", table_cell), Paragraph("Label-Safe Suite", table_cell), Paragraph("15 Epochs, AdamW + OneCycleLR", table_cell)],
+        [Paragraph("<b>Improved CNN</b>", table_cell_bold), Paragraph("32×32", table_cell), Paragraph("823,307", table_cell), Paragraph("Random (Kaiming)", table_cell), Paragraph("Label-Safe Suite", table_cell), Paragraph("15 Epochs, Adam (1e-3) + ReduceLROnPlateau", table_cell)],
         [Paragraph("<b>ResNet-18</b>", table_cell_bold), Paragraph("48×48", table_cell), Paragraph("11,319,147", table_cell), Paragraph("ImageNet-1k", table_cell), Paragraph("Label-Safe Suite", table_cell), Paragraph("Two-Stage (5 frozen + 10 full)", table_cell)],
         [Paragraph("<b>MobileNetV2</b>", table_cell_bold), Paragraph("48×48", table_cell), Paragraph("2,563,115", table_cell), Paragraph("ImageNet-1k", table_cell), Paragraph("Label-Safe Suite", table_cell), Paragraph("Two-Stage (5 frozen + 10 full)", table_cell)],
     ]
@@ -370,7 +370,7 @@ def build_pdf():
         "<b>Loss & Two-Stage Transfer Optimization:</b> All models are optimized using Cross-Entropy with inverse square-root class frequency weighting: "
         "<i>w_c = (N / (C × N_c))^0.5</i>. For pretrained models, naive full backpropagation from epoch 1 destroys pretrained features; thus, we enforce "
         "a <b>Two-Stage Fine-Tuning</b> protocol: Stage 1 (Epochs 1–5) freezes the backbone and trains only the head (lr=1e-3); Stage 2 (Epochs 6–15) "
-        "unfreezes the entire network with differential learning rates (backbone lr=1e-4, classifier head lr=1e-3)."
+        "unfreezes the entire network with differential learning rates (backbone lr=1e-4, classifier head lr=1e-3). <i>(Note on Training Configurations: Canonical submitted model weights and learning curves were generated via <code>src/train.py</code> using Adam with ReduceLROnPlateau across 8 epochs for Baseline and 15 epochs for Improved/Transfer models. An alternative multi-core CPU runner <code>run_fast.py</code> is also provided in the repository with an experimental AdamW + OneCycleLR setup for fast local replication.)</i>"
     )
     story.append(Paragraph(aug_text, body_style))
     story.append(Spacer(1, 6))

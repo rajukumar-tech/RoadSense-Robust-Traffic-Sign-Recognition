@@ -71,14 +71,14 @@ In raw GTSRB data, signs were recorded as continuous 30-frame video sequences ('
 ## 5. Methodology: Architectures & Training Pipeline
 
 ### Model Architectures
-- **Scratch BaselineCNN:** A custom 6-layer convolutional architecture designed specifically for 32×32 inputs. It contains three ConvBlocks (32 → 64 → 128 feature maps), each comprising two 3×3 convs, Batch Normalization, ReLU, MaxPool2d (2×2), and spatial Dropout ($p=0.25$). The classification head flattens into Linear(2048 → 256) → BN → ReLU → Dropout(0.5) → Linear(256 → 43), totaling **823,307 trainable parameters**.
+- **Scratch BaselineCNN:** A custom 6-layer convolutional architecture designed specifically for 32×32 inputs. It contains three ConvBlocks (32 → 64 → 128 feature maps), each comprising two 3×3 convs, Batch Normalization, ReLU, MaxPool2d (2×2), and progressive spatial Dropout2d ($p=0.2$ in Block 1, $p=0.3$ in Block 2, $p=0.4$ in Block 3). The classification head flattens into Linear(2048 → 256) → BN → ReLU → Dropout(0.5) → Linear(256 → 43), totaling **823,307 trainable parameters**.
 - **Improved CNN:** Exactly identical architecture to BaselineCNN, but trained with our specialized *label-safe augmentation pipeline*.
-- **Transfer Models (ResNet-18 & MobileNetV2):** ImageNet-pretrained backbones adapted for 48×48 input resolution. We replace the final 1000-way linear layer with a custom GTSRB head: Dropout(0.4) → Linear(D → 256) → BN → ReLU → Dropout(0.4) → Linear(256 → 43), where $D=512$ for ResNet-18 (11,319,147 parameters) and $D=1280$ for MobileNetV2 (2,563,115 parameters).
+- **Transfer Models (ResNet-18 & MobileNetV2):** ImageNet-pretrained backbones adapted for 48×48 input resolution. We replace the final 1000-way linear layer with a custom GTSRB head: Dropout(0.4) → Linear(D → 256) → BN → ReLU → Dropout(0.2) → Linear(256 → 43), where $D=512$ for ResNet-18 (11,319,147 parameters) and $D=1280$ for MobileNetV2 (2,563,115 parameters).
 
 | Model Architecture | Input Resolution | Total Parameters | Initialization | Augmentation Suite | Training Protocol |
 | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Baseline CNN** | 32×32 | 823,307 | Random (Kaiming) | None (Raw Images) | 8 Epochs, Adam (1e-3) |
-| **Improved CNN** | 32×32 | 823,307 | Random (Kaiming) | Label-Safe Suite | 15 Epochs, AdamW + OneCycleLR |
+| **Improved CNN** | 32×32 | 823,307 | Random (Kaiming) | Label-Safe Suite | 15 Epochs, Adam (1e-3) + ReduceLROnPlateau |
 | **ResNet-18** | 48×48 | 11,319,147 | ImageNet-1k | Label-Safe Suite | Two-Stage (5 frozen + 10 full) |
 | **MobileNetV2** | 48×48 | 2,563,115 | ImageNet-1k | Label-Safe Suite | Two-Stage (5 frozen + 10 full) |
 
@@ -98,6 +98,12 @@ $$\text{Loss} = - \sum_{c=1}^{43} w_c \cdot y_c \log(\hat{y}_c), \quad w_c = \sq
 For pretrained models, naive full backpropagation from epoch 1 destroys pretrained features; thus, we enforce a **Two-Stage Fine-Tuning** protocol:
 - **Stage 1 (Epochs 1–5):** Freeze the backbone and train only the newly initialized classification head ($\text{lr} = 10^{-3}$).
 - **Stage 2 (Epochs 6–15):** Unfreeze the entire network with differential learning rates: backbone at $\text{lr} = 10^{-4}$ and classifier head at $\text{lr} = 10^{-3}$.
+
+---
+
+
+
+> **Note on Training Configurations:** The canonical model weights (`checkpoints/best_*.pth`) and evaluation histories reported throughout this work were produced via `src/train.py` using standard Adam with ReduceLROnPlateau (8 epochs for Baseline CNN, 15 epochs for Improved CNN, and 15 epochs for Transfer Models with 5 frozen + 10 full fine-tuning). The repository also includes `run_fast.py`, an auxiliary multi-core CPU runner configured with AdamW and OneCycleLR for rapid local testing on laptop hardware.
 
 ---
 
