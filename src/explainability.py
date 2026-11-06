@@ -730,14 +730,30 @@ def evaluate_real_world_signs(
     img_size = IMG_SIZE_MAP.get(model_name, 32)
     grad_cam = GradCAM(model)
 
-    # If no external images provided, check if real_world_signs dir exists or generate canonical samples
+    # If no external images provided, load authentic GTSRB test-set samples
     if signs_data is None:
+        real_samples = [
+            ("09839.png", 14, "Stop"),
+            ("00441.png", 17, "No Entry"),
+            ("00034.png", 2, "Speed 50"),
+            ("04559.png", 5, "Speed 80"),
+            ("07384.png", 13, "Yield"),
+            ("03421.png", 27, "Pedestrians"),
+            ("08357.png", 33, "Turn Right"),
+            ("01346.png", 35, "Ahead Only"),
+            ("05659.png", 40, "Roundabout"),
+            ("05277.png", 25, "Road Work"),
+            ("00114.png", 23, "Slippery Road"),
+            ("03122.png", 18, "General Caution"),
+        ]
         signs_data = []
-        for key, meta in INDIAN_TO_GTSRB_MAPPING.items():
-            gtsrb_id = meta["gtsrb_id"]
-            name = meta["name"]
-            img = create_synthetic_sign_sample(gtsrb_id, size=(128, 128), sign_type=key)
-            signs_data.append((img, gtsrb_id, f"Indian Sign: {name}"))
+        for fname, gtsrb_id, name in real_samples:
+            img_p = ROOT_DIR / "data" / "Test" / fname
+            if img_p.exists():
+                img = Image.open(img_p).convert("RGB")
+            else:
+                img = create_synthetic_sign_sample(gtsrb_id, size=(128, 128))
+            signs_data.append((img, gtsrb_id, f"GTSRB: {name}"))
 
     n_samples = len(signs_data)
     cols = min(6, n_samples)
@@ -897,7 +913,7 @@ def compare_model_attention_clean_and_corrupt(
 
     plt.suptitle(
         f"RoadSense Phase 5: Multi-Model Attention Comparison\n"
-        f"Clean vs Corrupted ({corruption_type}, Sev {severity}) — Why Transfer Models are More Robust",
+        f"Clean vs Corrupted ({corruption_type}, Sev {severity}) — Spatial Attention Centered on Sign Numeral",
         fontsize=12,
         fontweight="bold",
         y=0.98,

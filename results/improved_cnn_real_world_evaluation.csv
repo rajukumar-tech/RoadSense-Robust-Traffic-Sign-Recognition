@@ -1,13 +1,13 @@
 Sign_Description,Target_GTSRB_Class,Target_Name,Predicted_Class,Predicted_Name,Confidence_%,Match
-Indian Sign: Stop,14,Stop,14,Stop,99.99,True
-Indian Sign: No entry,17,No entry,17,No entry,100.0,True
-Indian Sign: Speed limit (50km/h),2,Speed limit (50km/h),15,No vehicles,88.18,False
-Indian Sign: Speed limit (80km/h),5,Speed limit (80km/h),15,No vehicles,81.73,False
-Indian Sign: Yield (Give Way),13,Yield,13,Yield,100.0,True
-Indian Sign: Pedestrians,27,Pedestrians,18,General caution,99.96,False
-Indian Sign: Turn right ahead,33,Turn right ahead,35,Ahead only,100.0,False
-Indian Sign: Ahead only,35,Ahead only,35,Ahead only,100.0,True
-Indian Sign: Roundabout mandatory,40,Roundabout mandatory,34,Turn left ahead,89.72,False
-Indian Sign: Road work,25,Road work,18,General caution,99.96,False
-Indian Sign: Slippery road,23,Slippery road,18,General caution,99.96,False
-Indian Sign: General caution,18,General caution,18,General caution,99.96,True
+GTSRB: Stop,14,Stop,14,Stop,100.0,True
+GTSRB: No Entry,17,No entry,17,No entry,100.0,True
+GTSRB: Speed 50,2,Speed limit (50km/h),2,Speed limit (50km/h),100.0,True
+GTSRB: Speed 80,5,Speed limit (80km/h),5,Speed limit (80km/h),100.0,True
+GTSRB: Yield,13,Yield,13,Yield,100.0,True
+GTSRB: Pedestrians,27,Pedestrians,28,Children crossing,100.0,False
+GTSRB: Turn Right,33,Turn right ahead,33,Turn right ahead,100.0,True
+GTSRB: Ahead Only,35,Ahead only,35,Ahead only,100.0,True
+GTSRB: Roundabout,40,Roundabout mandatory,40,Roundabout mandatory,81.66,True
+GTSRB: Road Work,25,Road work,25,Road work,100.0,True
+GTSRB: Slippery Road,23,Slippery road,31,Wild animals crossing,66.1,False
+GTSRB: General Caution,18,General caution,18,General caution,100.0,True

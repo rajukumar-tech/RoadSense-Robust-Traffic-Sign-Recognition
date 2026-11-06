@@ -48,13 +48,14 @@ def section(title: str):
 
 
 def get_representative_test_samples():
-    """Returns a curated set of signs representing distinct categories."""
+    """Returns a curated set of authentic GTSRB test images representing distinct categories."""
+    from PIL import Image
     return [
-        (create_synthetic_sign_sample(14, sign_type="stop"), 14, "Stop (Priority)"),
-        (create_synthetic_sign_sample(2, sign_type="speed_limit_50"), 2, "Speed Limit 50 (Prohibitory)"),
-        (create_synthetic_sign_sample(17, sign_type="no_entry"), 17, "No Entry (Prohibitory)"),
-        (create_synthetic_sign_sample(13, sign_type="yield_give_way"), 13, "Yield (Priority)"),
-        (create_synthetic_sign_sample(33, sign_type="turn_right_ahead"), 33, "Turn Right Ahead (Mandatory)"),
+        (Image.open(ROOT_DIR / "data" / "Test" / "09839.png").convert("RGB"), 14, "Stop (Priority)"),
+        (Image.open(ROOT_DIR / "data" / "Test" / "00034.png").convert("RGB"), 2, "Speed Limit 50 (Prohibitory)"),
+        (Image.open(ROOT_DIR / "data" / "Test" / "00441.png").convert("RGB"), 17, "No Entry (Prohibitory)"),
+        (Image.open(ROOT_DIR / "data" / "Test" / "07384.png").convert("RGB"), 13, "Yield (Priority)"),
+        (Image.open(ROOT_DIR / "data" / "Test" / "08357.png").convert("RGB"), 33, "Turn Right Ahead (Mandatory)"),
     ]
 
 
@@ -84,7 +85,8 @@ def run_phase5(model_name: str = "baseline_cnn", run_all: bool = False):
 
         # 2. Corruption attention shift
         print(f"[{m_name}] Step 2: Evaluating corruption attention shift...")
-        sample_sign = create_synthetic_sign_sample(2, sign_type="speed_limit_50")
+        from PIL import Image
+        sample_sign = Image.open(ROOT_DIR / "data" / "Test" / "00034.png").convert("RGB")
         for corr in ["motion_blur", "gaussian_noise", "random_occlusion"]:
             explain_corruption_attention_shift(
                 model, sample_sign, true_class=2, corruption_type=corr, model_name=m_name, device=device
@@ -97,9 +99,9 @@ def run_phase5(model_name: str = "baseline_cnn", run_all: bool = False):
         # 4. Misclassifications
         print(f"[{m_name}] Step 4: Dual-target misclassification analysis...")
         misclassified_cases = [
-            (create_synthetic_sign_sample(2, sign_type="speed_limit_50"), 2, 5, "50 vs 80 km/h numeral ambiguity"),
-            (create_synthetic_sign_sample(33, sign_type="turn_right_ahead"), 33, 35, "Arrow stem blurred resembles Ahead Only"),
-            (create_synthetic_sign_sample(13, sign_type="yield_give_way"), 13, 18, "Corner occlusion resembles Warning Triangle"),
+            (Image.open(ROOT_DIR / "data" / "Test" / "00039.png").convert("RGB"), 8, 3, "120 vs 60 km/h numeral ambiguity"),
+            (Image.open(ROOT_DIR / "data" / "Test" / "00114.png").convert("RGB"), 30, 23, "Ice/Snow vs Slippery Road warning sign"),
+            (Image.open(ROOT_DIR / "data" / "Test" / "00270.png").convert("RGB"), 18, 27, "General Caution vs Pedestrians triangle"),
         ]
         explain_misclassifications_dual_target(model, misclassified_cases, model_name=m_name, device=device)
 
@@ -110,7 +112,7 @@ def run_phase5(model_name: str = "baseline_cnn", run_all: bool = False):
     # 6. Multi-model comparison if multiple models tested
     if len(loaded_models) > 1:
         section("Step 6: Four-Way Cross-Architecture Attention Comparison")
-        comp_sign = create_synthetic_sign_sample(2, sign_type="speed_limit_50")
+        comp_sign = Image.open(ROOT_DIR / "data" / "Test" / "00034.png").convert("RGB")
         compare_model_attention_clean_and_corrupt(
             loaded_models, comp_sign, true_class=2, corruption_type="motion_blur", severity=2, device=device
         )
