@@ -84,11 +84,11 @@ In raw GTSRB data, signs were recorded as continuous 30-frame video sequences ('
 
 ### Label-Safe Data Augmentation Justification
 In general computer vision, horizontal and vertical flips are standard. However, for traffic sign recognition, **flips are catastrophic and label-corrupting**: horizontally flipping a "Keep Right" sign (Class 38) converts it into a "Keep Left" sign (Class 39), and flipping a "Turn Left Ahead" sign turns it into "Turn Right Ahead". Therefore, we designed a strictly *label-safe augmentation suite*:
-- `RandomRotation(±12°)`: models camera tilt and vehicle pitch.
-- `ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2)`: models varying daylight, glare, and twilight.
-- `RandomPerspective(distortion=0.15, p=0.4)`: simulates varied roadside viewing angles.
-- `RandomErasing(scale=(0.02, 0.15), p=0.3)`: simulates physical stickers, dirt, or foliage occlusion.
-- `GaussianBlur(kernel=3, p=0.3)`: simulates minor optical defocus.
+- `RandomRotation(degrees=10)`: models slight camera tilt and vehicle pitch (±10°).
+- `RandomAffine(degrees=0, translate=(0.06, 0.06), scale=(0.95, 1.05))`: captures vehicle distance and sign centering variations.
+- `ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2)`: models varying daylight, overcast skies, glare, and twilight.
+
+*(Note: Extreme perturbations such as random occlusion patches and Gaussian blur were explicitly reserved for the zero-shot test bench in `src/corruptions.py` rather than training, to test true out-of-distribution resilience.)*
 
 ### Loss Function & Two-Stage Transfer Optimization
 All models are optimized using Cross-Entropy with inverse square-root class frequency weighting:

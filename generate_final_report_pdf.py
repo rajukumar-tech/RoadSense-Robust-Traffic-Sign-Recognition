@@ -366,8 +366,7 @@ def build_pdf():
         "<b>Label-Safe Data Augmentation Justification:</b> In general computer vision, horizontal and vertical flips are standard. "
         "However, for traffic sign recognition, <b>flips are catastrophic and label-corrupting</b>: horizontally flipping a 'Keep Right' sign (Class 38) "
         "converts it into a 'Keep Left' sign (Class 39), and flipping a 'Turn Left Ahead' sign turns it into 'Turn Right Ahead'. Therefore, we designed "
-        "a strictly <i>label-safe augmentation suite</i>: RandomRotation(±12°), ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2), "
-        "RandomPerspective(distortion=0.15, p=0.4), RandomErasing/Occlusion(scale=(0.02, 0.15), p=0.3), and mild GaussianBlur(kernel=3, p=0.3).<br/>"
+        "a strictly <i>label-safe augmentation suite</i> in <code>src/dataset.py</code>: RandomRotation(±10°) to model vehicle pitch/camera tilt, RandomAffine(translate=(0.06, 0.06), scale=(0.95, 1.05)) to capture distance and centering variations, and ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2) to accommodate illumination shifts (glare, overcast, shadows). Severe perturbations like patch occlusions and Gaussian blur were explicitly reserved for the out-of-distribution test bench (<code>src/corruptions.py</code>) to evaluate zero-shot degradation resilience.<br/>"
         "<b>Loss & Two-Stage Transfer Optimization:</b> All models are optimized using Cross-Entropy with inverse square-root class frequency weighting: "
         "<i>w_c = (N / (C × N_c))^0.5</i>. For pretrained models, naive full backpropagation from epoch 1 destroys pretrained features; thus, we enforce "
         "a <b>Two-Stage Fine-Tuning</b> protocol: Stage 1 (Epochs 1–5) freezes the backbone and trains only the head (lr=1e-3); Stage 2 (Epochs 6–15) "
@@ -599,8 +598,11 @@ def build_pdf():
     print(f"Generated PDF report successfully at {REPORT_PDF_PATH}")
     
     # Copy to user's Downloads folder
-    shutil.copy2(REPORT_PDF_PATH, DOWNLOADS_PDF_PATH)
-    print(f"Copied final PDF report to {DOWNLOADS_PDF_PATH}")
+    try:
+        shutil.copy2(REPORT_PDF_PATH, DOWNLOADS_PDF_PATH)
+        print(f"Copied final PDF report to {DOWNLOADS_PDF_PATH}")
+    except Exception as e:
+        print(f"Note: Could not copy to {DOWNLOADS_PDF_PATH} ({e}). Primary PDF is at {REPORT_PDF_PATH}")
 
 if __name__ == "__main__":
     build_pdf()
