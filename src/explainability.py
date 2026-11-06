@@ -67,12 +67,11 @@ def get_target_layer(model: nn.Module, target_layer: Optional[nn.Module] = None)
     if target_layer is not None:
         return target_layer
 
-    # 1. BaselineCNN
+    # 1. BaselineCNN: Block 2 gives 16x16 resolution (ideal for 32x32 inputs without gradient vanishing)
+    if hasattr(model, "block2") and isinstance(model.block2, nn.Sequential):
+        return model.block2[3]
     if hasattr(model, "block3") and isinstance(model.block3, nn.Sequential):
-        for layer in reversed(model.block3):
-            if isinstance(layer, nn.Conv2d):
-                return layer
-        return model.block3[-3]
+        return model.block3[3]
 
     # 2. TransferModel
     if isinstance(model, TransferModel):
