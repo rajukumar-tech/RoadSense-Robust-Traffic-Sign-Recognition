@@ -265,7 +265,7 @@ def preprocess_pil_image(
         img_size=img_size,
         is_training=False,
         use_augmentation=False,
-        use_imagenet_norm=use_imagenet_norm,
+        
     )
     tensor = transform(image).unsqueeze(0)
     if device is not None:

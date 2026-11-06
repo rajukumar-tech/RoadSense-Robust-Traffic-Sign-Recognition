@@ -157,7 +157,7 @@ To verify whether predictions stem from actual sign symbols rather than spurious
 *Figure 8. Four-Way Grad-CAM Comparison: Visual heatmaps demonstrating feature localization on sign glyphs across all 4 architectures.*
 
 ### Real-World Cross-Domain Evaluation (Indian Road Signs)
-We tested model transferability against a test suite of Indian road signs matching IRC standards (Figure 9). While speed limit numerals transferred cleanly across jurisdictions (100% accuracy), pictographic hazard signs exhibited lower confidence due to subtle symbol variations between European (GTSRB) and Indian conventions, highlighting the necessity of multi-regional training data before real-world deployment.
+In accordance with Phase 5's cross-domain check, we evaluated 12 canonical Indian Road Congress (IRC) road sign archetypes against the Improved CNN (Figure 9). Standardized circular pictograms and numerals (Speed limit 50, Ahead Only, General Caution) transferred cleanly with high confidence. Conversely, octagonal Stop, No Entry, and high speed-limit signs exhibited domain shift due to variations in font kerning, aspect-ratio variances, and boundary styling between Indian signage standards and German dashcam captures, demonstrating the need for multi-jurisdiction fine-tuning prior to physical deployment.
 
 ![Real World Evaluation](../results/figures/improved_cnn_gradcam_real_world_signs.png)
 *Figure 9. Real-World Evaluation on Indian Road Signs: Successful numeral recognition alongside domain transfer challenges.*
